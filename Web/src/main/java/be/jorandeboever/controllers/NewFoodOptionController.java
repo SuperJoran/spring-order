@@ -43,14 +43,14 @@ public class NewFoodOptionController {
         return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
     }
 
-    @GetMapping("/event/{configUuid}/food/{foodOptionUuid}")
+    @GetMapping("/event/{configUuid}/food/{foodOptionUuid}/add_extra")
     public ModelAndView extraForm(
             @PathVariable("configUuid") String configUuid,
             @PathVariable String foodOptionUuid
     ) {
         FoodOptionConfiguration config = this.foodOptionConfigurationService.findByUuid(configUuid);
         ModelAndView modelAndView = new ModelAndView("add_food", "configuration", config);
-        modelAndView.addObject("food", this.getFoodOption(foodOptionUuid, config));
+        modelAndView.addObject("food", this.getFoodOption(foodOptionUuid, config).orElse(null));
         modelAndView.addObject("extra", new ExtraOption());
         return modelAndView;
     }
