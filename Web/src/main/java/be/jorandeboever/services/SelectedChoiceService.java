@@ -10,4 +10,6 @@ public interface SelectedChoiceService {
     SelectedChoice createOrUpdate(String eventName, String foodUuid, String username);
 
     List<SelectedChoice> findByEventName(String eventName);
+
+    void deleteAllByPersonUsernameAndEventName(String username, String eventName);
 }

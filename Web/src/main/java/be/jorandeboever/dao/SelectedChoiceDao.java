@@ -14,7 +14,9 @@ public interface SelectedChoiceDao extends JpaRepository<SelectedChoice, String>
             "FROM SPR_SELECTED_CHOICE choice\n" +
             "  INNER JOIN SPR_FOOD_OPTION opt ON choice.FOOD_OPTION_UUID = opt.UUID\n" +
             "  INNER JOIN SPR_FOOD_OPTION_CONFIG config ON opt.CONFIGURATION_UUID = config.UUID\n" +
-            "  INNER JOIN SPR_EVENT event ON config.UUID = event.CONFIGURATION_UUID\n" +
+            "  INNER JOIN SPR_EVENT event ON config.EVENT_UUID = event.UUID\n" +
             "WHERE event.NAME = ?1", nativeQuery = true)
     List<SelectedChoice> findByEventName(String eventName);
+
+    void deleteAllByPerson_UsernameAndFoodOption_Configuration_Event_Name(String username, String eventName);
 }

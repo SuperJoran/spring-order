@@ -18,20 +18,18 @@ import java.util.List;
 public class FoodOptionConfiguration extends DomainObject {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER_UUID")
-    private Person owner;
+    @JoinColumn(name = "EVENT_UUID", nullable = false)
+    private Event event;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "configuration")
     @Fetch(FetchMode.SELECT)
-    @JoinColumn(name = "CONFIGURATION_UUID", nullable = false)
     private final List<FoodOption> foodOptions = new ArrayList<>();
 
-    public Person getOwner() {
-        return this.owner;
+    public FoodOptionConfiguration() {
     }
 
-    public void setOwner(Person owner) {
-        this.owner = owner;
+    public FoodOptionConfiguration(Event event) {
+        this.event = event;
     }
 
     public List<FoodOption> getFoodOptions() {
@@ -40,5 +38,13 @@ public class FoodOptionConfiguration extends DomainObject {
 
     public void addFoodOption(FoodOption foodOption) {
         this.getFoodOptions().add(foodOption);
+    }
+
+    public Event getEvent() {
+        return this.event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

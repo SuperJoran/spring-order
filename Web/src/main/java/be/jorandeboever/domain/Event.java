@@ -1,17 +1,21 @@
 package be.jorandeboever.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "SPR_EVENT")
@@ -24,16 +28,15 @@ public class Event extends DomainObject {
     @JoinColumn(name = "OWNER_UUID")
     private Person owner;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "CONFIGURATION_UUID")
-    @Access(AccessType.PROPERTY)
-    private FoodOptionConfiguration foodOptionConfiguration;
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER,  mappedBy = "event")
+    @Fetch(FetchMode.SELECT)
+    private List<FoodOptionConfiguration> foodOptionConfigurations = new ArrayList<>();
 
     @Formula(value = "(SELECT COUNT(DISTINCT c.person_uuid)\n" +
             "   FROM spr_selected_choice c\n" +
             "     INNER JOIN SPR_FOOD_OPTION foodOption ON c.FOOD_OPTION_UUID = foodOption.UUID\n" +
             "     INNER JOIN SPR_FOOD_OPTION_CONFIG config ON foodOption.CONFIGURATION_UUID = config.UUID\n" +
-            "    WHERE config.UUID = CONFIGURATION_UUID\n" +
+            "    WHERE config.EVENT_UUID = UUID\n" +
             "  )")
     private int numberOfAuthenticatedParticipants;
 
@@ -41,7 +44,7 @@ public class Event extends DomainObject {
             "   FROM SPR_SIMPLE_USER simpleUser\n" +
             "     INNER JOIN SPR_FOOD_OPTION foodOption ON simpleUser.FOOD_OPTION_UUID = foodOption.UUID\n" +
             "     INNER JOIN SPR_FOOD_OPTION_CONFIG config ON foodOption.CONFIGURATION_UUID = config.UUID\n" +
-            "   WHERE config.UUID = CONFIGURATION_UUID)")
+            "   WHERE config.EVENT_UUID = UUID)")
     private int numberOfSimpleParticipants;
 
     public int getNumberOfParticipants() {
@@ -77,13 +80,18 @@ public class Event extends DomainObject {
     }
 
     public FoodOptionConfiguration getFoodOptionConfiguration() {
-        if (this.foodOptionConfiguration == null) {
-            this.setFoodOptionConfiguration(new FoodOptionConfiguration());
-        }
-        return this.foodOptionConfiguration;
+        return this.foodOptionConfigurations.stream().findFirst().orElse(null);
     }
 
-    public void setFoodOptionConfiguration(FoodOptionConfiguration foodOptionConfiguration) {
-        this.foodOptionConfiguration = foodOptionConfiguration;
+    public void addFoodOptionConfiguration(FoodOptionConfiguration foodOptionConfiguration) {
+        this.foodOptionConfigurations.add(foodOptionConfiguration);
+    }
+
+    public List<FoodOptionConfiguration> getFoodOptionConfigurations() {
+        return this.foodOptionConfigurations;
+    }
+
+    public void setFoodOptionConfigurations(List<FoodOptionConfiguration> foodOptionConfigurations) {
+        this.foodOptionConfigurations = foodOptionConfigurations;
     }
 }

@@ -8,10 +8,11 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "SPR_FOOD_OPTION")
@@ -20,13 +21,17 @@ public class FoodOption extends DomainObject {
     private String name;
     private BigDecimal price;
 
+    @ManyToOne
+    @JoinColumn(name = "CONFIGURATION_UUID", nullable = false)
+    private FoodOptionConfiguration configuration;
+
     @Formula("(SELECT COUNT(*) FROM SPR_SELECTED_CHOICE choice WHERE choice.FOOD_OPTION_UUID = UUID)")
     private int count;
 
     @ElementCollection
     @CollectionTable(name = "SPR_SIMPLE_USER", joinColumns = @JoinColumn(name = "food_option_uuid"))
     @Column(name = "username")
-    private final List<String> simpleUsers = new ArrayList<>();
+    private final Collection<String> simpleUsers = new HashSet<>();
 
     public FoodOption() {
     }
@@ -60,12 +65,24 @@ public class FoodOption extends DomainObject {
         return this.count + this.simpleUsers.size();
     }
 
-    public List<String> getSimpleUsers() {
+    public Collection<String> getSimpleUsers() {
         return this.simpleUsers;
     }
 
     public void addSimpleUser(String username) {
         this.simpleUsers.add(username);
+    }
+
+    public void removeSimpleUser(String username) {
+        this.simpleUsers.remove(username);
+    }
+
+    public FoodOptionConfiguration getConfiguration() {
+        return this.configuration;
+    }
+
+    public void setConfiguration(FoodOptionConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     @Override

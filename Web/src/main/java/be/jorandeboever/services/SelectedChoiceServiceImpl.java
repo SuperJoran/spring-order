@@ -46,4 +46,9 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
     public List<SelectedChoice> findByEventName(String eventName) {
         return this.selectedChoiceDao.findByEventName(eventName);
     }
+
+    @Override
+    public void deleteAllByPersonUsernameAndEventName(String username, String eventName) {
+        this.selectedChoiceDao.deleteAllByPerson_UsernameAndFoodOption_Configuration_Event_Name(username, eventName);
+    }
 }
