@@ -28,6 +28,16 @@ public class FoodOptionConfiguration extends DomainObject {
     public FoodOptionConfiguration() {
     }
 
+    public FoodOptionConfiguration(FoodOptionConfiguration otherFoodOptionConfiguration) {
+        otherFoodOptionConfiguration.getFoodOptions()
+                .forEach(foodOption -> {
+                    FoodOption newFoodOption = new FoodOption(foodOption);
+                    newFoodOption.setConfiguration(this);
+                    this.foodOptions.add(newFoodOption);
+                });
+
+    }
+
     public FoodOptionConfiguration(Event event) {
         this.event = event;
     }
@@ -46,5 +56,9 @@ public class FoodOptionConfiguration extends DomainObject {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public int getNumberOfFoodOptions() {
+        return this.foodOptions.size();
     }
 }

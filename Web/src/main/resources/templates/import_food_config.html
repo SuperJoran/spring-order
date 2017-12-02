@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+
+    <h2>Configurations</h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Eventname</th>
+            <th>Number of food choices</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="configuration: ${configurations}">
+            <td th:text="${configuration.event.name}"></td>
+            <td th:text="${configuration.numberOfFoodOptions}"></td>
+            <td>
+                <a th:href="@{'/event/' + ${event.name} + '/import/' + ${configuration.uuid}}">
+                    <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+                    Import
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

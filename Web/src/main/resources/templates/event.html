@@ -16,37 +16,45 @@
         Add food
     </a>
 
+    <a class="btn btn-primary" style="float: right;" th:href="@{'/event/' +${event.name} + '/import'}">
+        Import
+    </a>
+
     <a class="btn btn-primary" style="float: right;" th:href="@{'/event/' +${event.name} + '/invitation'}">
         <i class="fa fa-user-plus" aria-hidden="true"></i>
         Join
     </a>
 
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Count</th>
-            <th>Add user</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="foodOption: ${event.foodOptionConfiguration.foodOptions}">
-            <td th:text="${foodOption.name}"></td>
-            <td th:text="${foodOption.price}"></td>
-            <td th:text="${foodOption.count}"></td>
-            <td>
-           <!--TODO: make default invisible?-->
-                <form th:action="@{'/event/' + ${event.name} + '/food/' + ${foodOption.name} + '/add_user'}" method="POST">
-                    <input type="text" name="username"/>
-                    <button type="Submit">Submit</button>
-                </form>
+    <div th:each="configuration: ${event.foodOptionConfigurations}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Count</th>
+                <th>Add user</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="foodOption: ${configuration.foodOptions}">
+                <td th:text="${foodOption.name}"></td>
+                <td th:text="${foodOption.price}"></td>
+                <td th:text="${foodOption.count}"></td>
+                <td>
+                    <!--TODO: make default invisible?-->
+                    <form th:action="@{'/event/' + ${event.name} + '/food/' + ${foodOption.name} + '/add_user'}" method="POST">
+                        <input type="text" name="username"/>
+                        <button type="Submit">Submit</button>
+                    </form>
 
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
 
 
     <div th:if="${!#lists.isEmpty(participants)}">
