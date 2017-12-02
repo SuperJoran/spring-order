@@ -1,10 +1,8 @@
 package be.jorandeboever.controllers;
 
 import be.jorandeboever.domain.Event;
-import be.jorandeboever.domain.FoodOption;
 import be.jorandeboever.domain.FoodOptionConfiguration;
 import be.jorandeboever.services.EventService;
-import be.jorandeboever.services.FoodOptionConfigurationService;
 import be.jorandeboever.services.PersonChoicesSearchResultService;
 import be.jorandeboever.services.PersonService;
 import be.jorandeboever.services.SelectedChoiceService;
@@ -30,7 +28,6 @@ public class EventController {
     private final PersonChoicesSearchResultService personChoicesSearchResultService;
     private final PersonService personService;
     private final SelectedChoiceService selectedChoiceService;
-    private final FoodOptionConfigurationService foodOptionConfigurationService;
 
     //TODO: split controller in multiple controllers
     @Autowired
@@ -38,13 +35,12 @@ public class EventController {
             EventService eventService,
             PersonChoicesSearchResultService personChoicesSearchResultService,
             PersonService personService,
-            SelectedChoiceService selectedChoiceService,
-            FoodOptionConfigurationService foodOptionConfigurationService) {
+            SelectedChoiceService selectedChoiceService
+    ) {
         this.eventService = eventService;
         this.personChoicesSearchResultService = personChoicesSearchResultService;
         this.personService = personService;
         this.selectedChoiceService = selectedChoiceService;
-        this.foodOptionConfigurationService = foodOptionConfigurationService;
     }
 
     @GetMapping("/event")
@@ -73,23 +69,6 @@ public class EventController {
         ModelAndView modelAndView = new ModelAndView("event", "event", this.eventService.findByName(eventName));
         modelAndView.addObject("participants", this.personChoicesSearchResultService.findParticipantsByEventName(eventName));
         return modelAndView;
-    }
-
-    @GetMapping("/event/{configUuid}/add_food")
-    public ModelAndView foodForm(@PathVariable("configUuid") String configUuid) {
-        ModelAndView modelAndView = new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByUuid(configUuid));
-        modelAndView.addObject("food", new FoodOption());
-        return modelAndView;
-    }
-
-    @PostMapping("/event/{configUuid}/add_food")
-    public ModelAndView foodSubmit(@PathVariable("configUuid") String configUuid, @ModelAttribute FoodOption foodOption) {
-        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByUuid(configUuid);
-        foodOption.setConfiguration(foodOptionConfiguration);
-        foodOptionConfiguration.addFoodOption(foodOption);
-        this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
-
-        return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
     }
 
     @PostMapping("/event/{eventName}/food/{foodName}/add_user")
