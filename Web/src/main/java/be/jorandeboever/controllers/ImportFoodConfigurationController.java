@@ -37,6 +37,6 @@ public class ImportFoodConfigurationController {
     public ModelAndView eventForm(@PathVariable("eventName") String eventName, @PathVariable("configurationUuid") String configurationUuid) {
         this.foodOptionConfigurationService.copyFoodOptionConfiguration(eventName, configurationUuid);
 
-        return new ModelAndView("redirect:/event/" + eventName);
+        return new ModelAndView("redirect:/event/" + eventName + "/import");
     }
 }

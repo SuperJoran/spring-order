@@ -20,8 +20,12 @@
         <tr th:each="configuration: ${configurations}">
             <td th:text="${configuration.event.name}"></td>
             <td th:text="${configuration.numberOfFoodOptions}"></td>
-            <td>
-                <a th:href="@{'/event/' + ${event.name} + '/import/' + ${configuration.uuid}}">
+            <td th:with="alreadyImported=${#lists.contains(event.foodOptionConfigurations, configuration)}">
+                <a class="btn btn-success disabled" th:if="${alreadyImported}">
+                    <i class="fa fa-check-circle-o"></i>
+                    Imported
+                </a>
+                <a th:if="${!alreadyImported}" class="btn btn-secondary" th:href="@{'/event/' + ${event.name} + '/import/' + ${configuration.uuid}}">
                     <i class="fa fa-hand-o-up" aria-hidden="true"></i>
                     Import
                 </a>
