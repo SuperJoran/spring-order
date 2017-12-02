@@ -7,6 +7,7 @@ import be.jorandeboever.domain.searchresult.PersonChoicesSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PersonChoicesSearchResultServiceImpl implements PersonChoicesSearchResultService {
     private final SelectedChoiceService selectedChoiceService;
     private final EventService eventService;

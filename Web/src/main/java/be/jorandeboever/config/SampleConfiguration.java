@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 @EntityScan({"be.jorandeboever.domain"})
 @EnableJpaRepositories({"be.jorandeboever.dao"})
 @ComponentScan({"be.jorandeboever.services", "be.jorandeboever.controllers"})
+@EnableTransactionManagement
 public class SampleConfiguration {
     @Bean
     public DataSource dataSource(
