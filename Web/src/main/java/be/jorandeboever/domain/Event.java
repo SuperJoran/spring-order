@@ -29,13 +29,12 @@ public class Event extends DomainObject {
     @Access(AccessType.PROPERTY)
     private FoodOptionConfiguration foodOptionConfiguration;
 
-    @Formula("(SELECT COUNT(0)\n" +
-            "   FROM\n" +
-            "     (SELECT DISTINCT selectedChoice.PERSON_UUID\n" +
-            "      FROM SPR_SELECTED_CHOICE selectedChoice\n" +
-            "        INNER JOIN SPR_FOOD_OPTION foodOption ON selectedChoice.FOOD_OPTION_UUID = foodOption.UUID\n" +
-            "        INNER JOIN SPR_FOOD_OPTION_CONFIG config ON foodOption.CONFIGURATION_UUID = config.UUID\n" +
-            "      WHERE config.UUID = CONFIGURATION_UUID))")
+    @Formula(value = "(SELECT COUNT(DISTINCT c.person_uuid)\n" +
+            "   FROM spr_selected_choice c\n" +
+            "     INNER JOIN SPR_FOOD_OPTION foodOption ON c.FOOD_OPTION_UUID = foodOption.UUID\n" +
+            "     INNER JOIN SPR_FOOD_OPTION_CONFIG config ON foodOption.CONFIGURATION_UUID = config.UUID\n" +
+            "    WHERE config.UUID = event0_.CONFIGURATION_UUID\n" +
+            "  )")
     private int numberOfParticipants;
 
     public int getNumberOfParticipants() {
