@@ -3,9 +3,10 @@
 -- @since: 2/12/17
 -------------------------------------------------
 
-create table SPR_SIMPLE_USER (
-  food_option_uuid VARCHAR2(36 CHAR)  CONSTRAINT NN01_SPR_SIMPLE_USER NOT NULL,
-  username         VARCHAR2(255 CHAR) CONSTRAINT NN02_SPR_SIMPLE_USER NOT NULL
+CREATE TABLE SPR_SIMPLE_USER (
+  food_option_uuid VARCHAR(36)  CONSTRAINT NN01_SPR_SIMPLE_USER NOT NULL,
+  username         VARCHAR(255) CONSTRAINT NN02_SPR_SIMPLE_USER NOT NULL
 );
 
-alter table SPR_SIMPLE_USER add constraint pk_SPR_SIMPLE_USER primary key (food_option_uuid, username);
+ALTER TABLE SPR_SIMPLE_USER
+  ADD CONSTRAINT pk_SPR_SIMPLE_USER PRIMARY KEY (food_option_uuid, username);
