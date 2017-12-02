@@ -33,16 +33,19 @@ public class Event extends DomainObject {
             "   FROM spr_selected_choice c\n" +
             "     INNER JOIN SPR_FOOD_OPTION foodOption ON c.FOOD_OPTION_UUID = foodOption.UUID\n" +
             "     INNER JOIN SPR_FOOD_OPTION_CONFIG config ON foodOption.CONFIGURATION_UUID = config.UUID\n" +
-            "    WHERE config.UUID = event0_.CONFIGURATION_UUID\n" +
+            "    WHERE config.UUID = CONFIGURATION_UUID\n" +
             "  )")
-    private int numberOfParticipants;
+    private int numberOfAuthenticatedParticipants;
+
+    @Formula(value = "(SELECT COUNT(DISTINCT simpleUser.username)\n" +
+            "   FROM SPR_SIMPLE_USER simpleUser\n" +
+            "     INNER JOIN SPR_FOOD_OPTION foodOption ON simpleUser.FOOD_OPTION_UUID = foodOption.UUID\n" +
+            "     INNER JOIN SPR_FOOD_OPTION_CONFIG config ON foodOption.CONFIGURATION_UUID = config.UUID\n" +
+            "   WHERE config.UUID = CONFIGURATION_UUID)")
+    private int numberOfSimpleParticipants;
 
     public int getNumberOfParticipants() {
-        return this.numberOfParticipants;
-    }
-
-    public void setNumberOfParticipants(int numberOfParticipants) {
-        this.numberOfParticipants = numberOfParticipants;
+        return this.numberOfAuthenticatedParticipants + this.numberOfSimpleParticipants;
     }
 
     public LocalDateTime getDateTime() {

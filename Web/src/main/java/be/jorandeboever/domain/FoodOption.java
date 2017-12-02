@@ -57,11 +57,7 @@ public class FoodOption extends DomainObject {
     }
 
     public int getCount() {
-        return this.count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
+        return this.count + this.simpleUsers.size();
     }
 
     public List<String> getSimpleUsers() {
