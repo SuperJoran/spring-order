@@ -32,4 +32,8 @@ public class ExtraOption extends DomainObject{
         return CurrencyFormatUtility.formatAmount(this.price);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s: %s", this.getName(), this.getPriceAsString());
+    }
 }
