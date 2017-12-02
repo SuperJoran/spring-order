@@ -44,7 +44,7 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
 
     @Override
     public List<SelectedChoice> findByEventName(String eventName) {
-        return this.selectedChoiceDao.findByEventName(eventName);
+        return this.selectedChoiceDao.findAllByFoodOption_Configuration_Event_Name(eventName);
     }
 
     @Override
