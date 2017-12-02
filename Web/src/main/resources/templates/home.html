@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <h1>Test</h1>
+    <p>
+        Welcome to the Spring MVC Quickstart application!
+        Get started quickly by signing up.
+    </p>
+    <p>
+        <a href="/register" th:href="@{/signup}" class="btn btn-large btn-success">Sign up</a>
+    </p>
+
+    <div class="row">
+        <div class="card col-lg-6">
+            <div class="card-header">Create an event</div>
+            <div class="card-body">
+
+                <form action="#" th:action="@{/event}" th:object="${event}" method="POST">
+
+                    <div class="form-group">
+                        <label for="name">Event name:</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="name"/>
+                    </div>
+
+                    <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="card col-lg-6">
+            <div class="card-header">Join an event</div>
+            <div class="card-body">
+
+                <form action="#" th:action="@{/search}" th:object="${event}" method="POST">
+
+                    <div class="form-group">
+                        <label for="searchName">Event name:</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="searchName"/>
+                    </div>
+
+                    <button type="submit" value="Submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

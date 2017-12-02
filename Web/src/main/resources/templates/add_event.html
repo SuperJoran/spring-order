@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <h1>Add an event</h1>
+    <form action="#" th:action="@{/event}" th:object="${event}" method="POST">
+
+        <div class="form-group">
+            <label for="name">Event name:</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name"/>
+        </div>
+
+        <button type="submit"  value="Submit" class="btn btn-primary">Submit</button>
+        <button type="reset"  value="Reset" class="btn btn-secondary">Reset</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+
+    <div th:if="${!#lists.isEmpty(events)}">
+        <h2>Your events</h2>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Number of participants</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="event: ${events}">
+                <td>
+                    <a th:href="@{'/event/' + ${event.name}}">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <span th:text="${event.name}"></span>
+                    </a>
+                </td>
+                <td th:text="${event.dateTimeAsString}"></td>
+                <td th:text="${event.numberOfParticipants}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

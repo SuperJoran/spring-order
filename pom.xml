@@ -9,17 +9,48 @@
         <version>1.5.8.RELEASE</version>
     </parent>
 
+    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>be.jorandeboever</groupId>
     <artifactId>spring-order</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+
+    <properties>
+        <bootstrap.version>4.0.0-beta</bootstrap.version>
+        <jquery.version>3.2.1</jquery.version>
+        <font-awesome.version>4.7.0</font-awesome.version>
+        <popper.js.version>1.12.5</popper.js.version>
+    </properties>
 
     <modules>
         <module>Web</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>${jquery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>font-awesome</artifactId>
+                <version>${font-awesome.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars.bower</groupId>
+                <artifactId>popper.js</artifactId>
+                <version>${popper.js.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 

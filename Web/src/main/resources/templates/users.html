@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<table>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.name}">Example name</td>
+    </tr>
+</table>
+</body>
+</html>

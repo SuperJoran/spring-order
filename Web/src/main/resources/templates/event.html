@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <h1 style="display: inline;" th:text="'Event: ' + ${event.name}">Event: </h1>
+    <h2>Food options</h2>
+
+    <a class="btn btn-primary" th:href="@{'/event/' + ${event.name} + '/add_food'}">
+        <i class="fa fa-plus-square" aria-hidden="true"></i>
+        Add food
+    </a>
+
+    <a class="btn btn-primary" style="float: right;" th:href="@{'/event/' +${event.name} + '/invitation'}">
+        <i class="fa fa-user-plus" aria-hidden="true"></i>
+        Join
+    </a>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Count</th>
+            <th>Add user</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="foodOption: ${event.foodOptionConfiguration.foodOptions}">
+            <td th:text="${foodOption.name}"></td>
+            <td th:text="${foodOption.price}"></td>
+            <td th:text="${foodOption.count}"></td>
+            <td>
+           <!--TODO: make default invisible?-->
+                <form th:action="@{'/event/' + ${event.name} + '/food/' + ${foodOption.name} + '/add_user'}" method="POST">
+                    <input type="text" name="username"/>
+                    <button type="Submit">Submit</button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div th:if="${!#lists.isEmpty(participants)}">
+        <h2>Participants</h2>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Food choices</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="participant: ${participants}">
+                <td th:text="${participant.username}"></td>
+                <td th:text="${participant.selectedChoicesAsString}"></td>
+                <td th:text="${participant.totalPrice}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
