@@ -7,6 +7,7 @@ import be.jorandeboever.services.PersonService;
 import be.jorandeboever.services.SelectedChoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@Transactional
 public class InvitationController {
 
     private final EventService eventService;

@@ -2,10 +2,12 @@ package be.jorandeboever.controllers;
 
 import be.jorandeboever.domain.Event;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@Transactional
 public class HomeController {
 
     @RequestMapping("/")
