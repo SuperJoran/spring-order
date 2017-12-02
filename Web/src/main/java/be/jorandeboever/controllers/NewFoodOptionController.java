@@ -1,5 +1,6 @@
 package be.jorandeboever.controllers;
 
+import be.jorandeboever.domain.ExtraOption;
 import be.jorandeboever.domain.FoodOption;
 import be.jorandeboever.domain.FoodOptionConfiguration;
 import be.jorandeboever.services.FoodOptionConfigurationService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Controller
 @Transactional
@@ -27,6 +29,7 @@ public class NewFoodOptionController {
     public ModelAndView foodForm(@PathVariable("configUuid") String configUuid) {
         ModelAndView modelAndView = new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByUuid(configUuid));
         modelAndView.addObject("food", new FoodOption());
+        modelAndView.addObject("extra", new ExtraOption());
         return modelAndView;
     }
 
@@ -38,5 +41,39 @@ public class NewFoodOptionController {
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
 
         return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
+    }
+
+    @GetMapping("/event/{configUuid}/food/{foodOptionUuid}")
+    public ModelAndView extraForm(
+            @PathVariable("configUuid") String configUuid,
+            @PathVariable String foodOptionUuid
+    ) {
+        FoodOptionConfiguration config = this.foodOptionConfigurationService.findByUuid(configUuid);
+        ModelAndView modelAndView = new ModelAndView("add_food", "configuration", config);
+        modelAndView.addObject("food", this.getFoodOption(foodOptionUuid, config));
+        modelAndView.addObject("extra", new ExtraOption());
+        return modelAndView;
+    }
+
+    @PostMapping("/event/{configUuid}/food/{foodOptionUuid}/add_extra")
+    public ModelAndView extraSubmit(
+            @PathVariable("configUuid") String configUuid,
+            @PathVariable String foodOptionUuid,
+            @ModelAttribute ExtraOption extraOption
+    ) {
+        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByUuid(configUuid);
+        this.getFoodOption(foodOptionUuid, foodOptionConfiguration)
+                .ifPresent(o -> o.addExtraOption(extraOption));
+
+        this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
+        return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
+
+    }
+
+    private Optional<FoodOption> getFoodOption(String foodOptionUuid, FoodOptionConfiguration foodOptionConfiguration) {
+        return foodOptionConfiguration.getFoodOptions()
+                .stream()
+                .filter(o -> o.getUuid().equals(foodOptionUuid))
+                .findFirst();
     }
 }

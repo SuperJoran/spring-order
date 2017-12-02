@@ -1,16 +1,22 @@
 package be.jorandeboever.domain;
 
 import be.jorandeboever.utilities.CurrencyFormatUtility;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -33,6 +39,11 @@ public class FoodOption extends DomainObject {
     @Column(name = "username")
     private final Collection<String> simpleUsers = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "FOOD_OPTION_UUID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    private final Collection<ExtraOption> extraOptions = new ArrayList<>();
+
     public FoodOption() {
     }
 
@@ -44,6 +55,14 @@ public class FoodOption extends DomainObject {
     public FoodOption(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
+    }
+
+    public Collection<ExtraOption> getExtraOptions() {
+        return this.extraOptions;
+    }
+
+    public void addExtraOption(ExtraOption extraOption) {
+        this.extraOptions.add(extraOption);
     }
 
     public String getName() {
