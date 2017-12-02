@@ -9,4 +9,8 @@ public interface FoodOptionConfigurationService {
     List<FoodOptionConfiguration> findAllByEventOwnerUsername(String username);
 
     void copyFoodOptionConfiguration(String eventName, String foodOptionConfigurationUuid);
+
+    FoodOptionConfiguration findByUuid(String uuid);
+
+    FoodOptionConfiguration createOrUpdate(FoodOptionConfiguration foodOptionConfiguration);
 }

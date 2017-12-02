@@ -9,12 +9,8 @@
 <div class="container">
 
     <h1 style="display: inline;" th:text="'Event: ' + ${event.name}">Event: </h1>
-    <h2>Food options</h2>
 
-    <a class="btn btn-primary" th:href="@{'/event/' + ${event.name} + '/add_food'}">
-        <i class="fa fa-plus-square" aria-hidden="true"></i>
-        Add food
-    </a>
+
 
     <a class="btn btn-primary" style="float: right;" th:href="@{'/event/' +${event.name} + '/import'}">
         Import
@@ -27,6 +23,11 @@
 
 
     <div th:each="configuration: ${event.foodOptionConfigurations}">
+        <h2 th:text="${configuration.name}"></h2>
+        <a class="btn btn-primary" th:href="@{'/event/' + ${configuration.uuid} + '/add_food'}">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            Add food
+        </a>
         <table class="table table-striped">
             <thead>
             <tr>

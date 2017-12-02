@@ -8,9 +8,9 @@
 
 <div class="container">
 
-    <h1 th:text="'Event: ' + ${event.name}">Event: </h1>
-    <h2>Food options</h2>
-    <form action="#" th:action="@{'/event/' + ${event.name} +'/add_food'}" th:object="${food}" method="POST">
+    <h1 th:text="'Event: ' + ${configuration.event.name}">Event: </h1>
+    <h2 th:text="${configuration.name}"></h2>
+    <form action="#" th:action="@{'/event/' + ${configuration.uuid} +'/add_food'}" th:object="${food}" method="POST">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="foodOption: ${event.foodOptionConfiguration.foodOptions}">
+            <tr th:each="foodOption: ${configuration.foodOptions}">
                 <td th:text="${foodOption.name}"></td>
                 <td th:text="${foodOption.price}"></td>
                 <td th:text="${foodOption.count}"></td>
@@ -33,7 +33,7 @@
                 <td></td>
                 <td>
                     <button type="submit" value="Submit" class="btn btn-primary">Add</button>
-                    <a th:href="@{'/event/' + ${event.name}}" type="cancel" class="btn btn-secondary">Cancel</a>
+                    <a th:href="@{'/event/' + ${configuration.event.name}}" type="cancel" class="btn btn-secondary">Finish</a>
                 </td>
 
             </tr>

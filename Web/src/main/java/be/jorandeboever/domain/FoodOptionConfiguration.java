@@ -25,6 +25,8 @@ public class FoodOptionConfiguration extends DomainObject {
     @Fetch(FetchMode.SELECT)
     private final List<FoodOption> foodOptions = new ArrayList<>();
 
+    private String name;
+
     public FoodOptionConfiguration() {
     }
 
@@ -60,5 +62,13 @@ public class FoodOptionConfiguration extends DomainObject {
 
     public int getNumberOfFoodOptions() {
         return this.foodOptions.size();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

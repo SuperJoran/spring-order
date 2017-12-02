@@ -33,4 +33,14 @@ public class FoodOptionConfigurationServiceImpl implements FoodOptionConfigurati
 
         this.foodOptionConfigurationDao.save(newConfiguration);
     }
+
+    @Override
+    public FoodOptionConfiguration findByUuid(String uuid) {
+        return this.foodOptionConfigurationDao.getOne(uuid);
+    }
+
+    @Override
+    public FoodOptionConfiguration createOrUpdate(FoodOptionConfiguration foodOptionConfiguration) {
+        return this.foodOptionConfigurationDao.save(foodOptionConfiguration);
+    }
 }
