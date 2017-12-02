@@ -1,0 +1,11 @@
+*.iws
+target/
+*.log
+.idea
+*.iml
+*.ipr
+*.jasper
+/.project
+/.settings
+dependency-reduced-pom.xml
+deployments/
