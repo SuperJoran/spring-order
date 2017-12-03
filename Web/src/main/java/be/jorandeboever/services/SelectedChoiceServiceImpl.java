@@ -29,7 +29,7 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
     }
 
     @Override
-    public SelectedChoice createOrUpdate(String eventName, String foodUuid, String username) {
+    public SelectedChoice createSelectedOption(String eventName, String foodUuid, String username) {
         Event event = this.eventService.findByName(eventName);
         SelectedChoice selectedChoice = new SelectedChoice((Person) this.personService.loadUserByUsername(username));
 
@@ -38,6 +38,21 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
                         .filter(foodOption -> foodOption.getUuid().equals(foodUuid))
                         .findFirst().orElse(null)
         );
+
+        return this.createOrUpdate(selectedChoice);
+    }
+
+    @Override
+    public SelectedChoice addExtraOption(String eventName, String foodUuid, String extraUuid, String username) {
+        SelectedChoice selectedChoice = this.findByEventName(eventName).stream()
+                .filter(c -> c.getPerson().getUsername().equals(username))
+                .filter(c -> c.getFoodOption().getUuid().equals(foodUuid))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("You can only select extras for already selected food options."));
+
+        selectedChoice.addExtraOption(selectedChoice.getFoodOption().getExtraOptions().stream()
+                .filter(e -> e.getUuid().equals(extraUuid))
+                .findFirst().orElse(null));
 
         return this.createOrUpdate(selectedChoice);
     }
