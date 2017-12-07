@@ -3,7 +3,7 @@ package be.jorandeboever.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,11 +28,13 @@ public class SampleConfiguration {
             @Value("${application.db.owner.password}") String password,
             @Value("${application.db.owner.url}") String url
     ) {
-        return DataSourceBuilder.create()
-                .driverClassName(driverClassname)
+        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+
+        dataSourceBuilder.driverClassName(driverClassname)
                 .username(username)
                 .password(password)
-                .url(url)
-                .build();
+                .url(url);
+
+        return dataSourceBuilder.build();
     }
 }

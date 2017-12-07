@@ -21,7 +21,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person getPerson(String uuid) {
-        return this.personDao.getOne(uuid);
+        return this.personDao.findOne(uuid);
     }
 
     @Override

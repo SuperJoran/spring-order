@@ -26,7 +26,7 @@ public class FoodOptionConfigurationServiceImpl implements FoodOptionConfigurati
 
     @Override
     public void copyFoodOptionConfiguration(String eventName, String foodOptionConfigurationUuid) {
-        FoodOptionConfiguration oldConfiguration = this.foodOptionConfigurationDao.getOne(foodOptionConfigurationUuid);
+        FoodOptionConfiguration oldConfiguration = this.foodOptionConfigurationDao.findOne(foodOptionConfigurationUuid);
         FoodOptionConfiguration newConfiguration = new FoodOptionConfiguration(oldConfiguration);
         Event event = this.eventService.findByName(eventName);
         newConfiguration.setEvent(event);
