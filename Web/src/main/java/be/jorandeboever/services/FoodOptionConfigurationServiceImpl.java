@@ -3,7 +3,6 @@ package be.jorandeboever.services;
 import be.jorandeboever.dao.FoodOptionConfigurationDao;
 import be.jorandeboever.domain.Event;
 import be.jorandeboever.domain.FoodOptionConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,6 @@ public class FoodOptionConfigurationServiceImpl implements FoodOptionConfigurati
     private final FoodOptionConfigurationDao foodOptionConfigurationDao;
     private final EventService eventService;
 
-    @Autowired
     public FoodOptionConfigurationServiceImpl(FoodOptionConfigurationDao foodOptionConfigurationDao, EventService eventService) {
         this.foodOptionConfigurationDao = foodOptionConfigurationDao;
         this.eventService = eventService;

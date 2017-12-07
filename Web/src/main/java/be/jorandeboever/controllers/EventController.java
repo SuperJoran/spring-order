@@ -6,7 +6,6 @@ import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.PersonChoicesSearchResultService;
 import be.jorandeboever.services.PersonService;
 import be.jorandeboever.services.SelectedChoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +29,6 @@ public class EventController {
     private final SelectedChoiceService selectedChoiceService;
 
     //TODO: split controller in multiple controllers
-    @Autowired
     public EventController(
             EventService eventService,
             PersonChoicesSearchResultService personChoicesSearchResultService,

@@ -2,7 +2,6 @@ package be.jorandeboever.services;
 
 import be.jorandeboever.dao.PersonDao;
 import be.jorandeboever.domain.Person;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ public class PersonServiceImpl implements PersonService {
 
     private final PersonDao personDao;
 
-    @Autowired
     public PersonServiceImpl(PersonDao personDao) {
         this.personDao = personDao;
     }

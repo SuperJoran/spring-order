@@ -4,7 +4,6 @@ import be.jorandeboever.domain.ExtraOption;
 import be.jorandeboever.domain.FoodOption;
 import be.jorandeboever.domain.FoodOptionConfiguration;
 import be.jorandeboever.services.FoodOptionConfigurationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +19,6 @@ import java.util.Optional;
 public class NewFoodOptionController {
     private final FoodOptionConfigurationService foodOptionConfigurationService;
 
-    @Autowired
     public NewFoodOptionController(FoodOptionConfigurationService foodOptionConfigurationService) {
         this.foodOptionConfigurationService = foodOptionConfigurationService;
     }

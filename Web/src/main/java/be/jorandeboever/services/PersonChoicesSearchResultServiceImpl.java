@@ -2,7 +2,6 @@ package be.jorandeboever.services;
 
 import be.jorandeboever.domain.SelectedChoice;
 import be.jorandeboever.domain.searchresult.PersonChoicesSearchResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.stream.Collectors;
 public class PersonChoicesSearchResultServiceImpl implements PersonChoicesSearchResultService {
     private final SelectedChoiceService selectedChoiceService;
 
-    @Autowired
     public PersonChoicesSearchResultServiceImpl(SelectedChoiceService selectedChoiceService) {
         this.selectedChoiceService = selectedChoiceService;
     }

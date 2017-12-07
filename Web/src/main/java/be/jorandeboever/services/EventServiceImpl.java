@@ -2,7 +2,6 @@ package be.jorandeboever.services;
 
 import be.jorandeboever.dao.EventDao;
 import be.jorandeboever.domain.Event;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
     private final EventDao eventDao;
 
-    @Autowired
     public EventServiceImpl(EventDao eventDao) {
         this.eventDao = eventDao;
     }

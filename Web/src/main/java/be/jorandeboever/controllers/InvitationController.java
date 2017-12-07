@@ -6,7 +6,6 @@ import be.jorandeboever.domain.SelectedChoice;
 import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.PersonService;
 import be.jorandeboever.services.SelectedChoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,6 @@ public class InvitationController {
     private final SelectedChoiceService selectedChoiceService;
     private final PersonService personService;
 
-    @Autowired
     public InvitationController(EventService eventService, SelectedChoiceService selectedChoiceService, PersonService personService) {
         this.eventService = eventService;
         this.selectedChoiceService = selectedChoiceService;

@@ -2,7 +2,6 @@ package be.jorandeboever.controllers;
 
 import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.FoodOptionConfigurationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ public class ImportFoodConfigurationController {
     private final FoodOptionConfigurationService foodOptionConfigurationService;
     private final EventService eventService;
 
-    @Autowired
     public ImportFoodConfigurationController(FoodOptionConfigurationService foodOptionConfigurationService, EventService eventService) {
         this.foodOptionConfigurationService = foodOptionConfigurationService;
         this.eventService = eventService;
