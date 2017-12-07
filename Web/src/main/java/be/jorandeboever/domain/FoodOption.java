@@ -35,6 +35,7 @@ public class FoodOption extends DomainObject {
     @Formula("(SELECT COUNT(*) FROM SPR_SELECTED_CHOICE choice WHERE choice.FOOD_OPTION_UUID = UUID)")
     private int count;
 
+    @Deprecated
     @ElementCollection
     @CollectionTable(name = "SPR_SIMPLE_USER", joinColumns = @JoinColumn(name = "food_option_uuid"))
     @Column(name = "username")
