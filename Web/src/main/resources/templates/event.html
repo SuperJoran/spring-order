@@ -11,7 +11,6 @@
     <h1 style="display: inline;" th:text="'Event: ' + ${event.name}">Event: </h1>
 
 
-
     <a class="btn btn-primary" style="float: right;" th:href="@{'/event/' +${event.name} + '/import'}">
         Import
     </a>
@@ -33,29 +32,19 @@
             <tr>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Count</th>
-                <th>Add user</th>
+                <th>Extra options</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="foodOption: ${configuration.foodOptions}">
                 <td th:text="${foodOption.name}"></td>
                 <td th:text="${foodOption.price}"></td>
-                <td th:text="${foodOption.count}"></td>
-                <td>
-                    <!--TODO: make default invisible?-->
-                    <form th:action="@{'/event/' + ${event.name} + '/food/' + ${foodOption.name} + '/add_user'}" method="POST">
-                        <input type="text" name="username"/>
-                        <button type="Submit">Submit</button>
-                    </form>
-
-                </td>
+                <td th:text="${foodOption.extraOptionsAsString}"></td>
             </tr>
             </tbody>
         </table>
 
     </div>
-
 
 
     <div th:if="${!#lists.isEmpty(participants)}">

@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "SPR_FOOD_OPTION")
@@ -59,6 +60,12 @@ public class FoodOption extends DomainObject {
 
     public Collection<ExtraOption> getExtraOptions() {
         return this.extraOptions;
+    }
+
+    public String getExtraOptionsAsString() {
+        return this.extraOptions.stream()
+                .map(ExtraOption::toString)
+                .collect(Collectors.joining(","));
     }
 
     public void addExtraOption(ExtraOption extraOption) {
