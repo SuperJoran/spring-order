@@ -11,8 +11,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "SPR_SELECTED_CHOICE")
@@ -63,5 +65,24 @@ public class SelectedChoice extends DomainObject {
 
     public void addExtraOption(ExtraOption extraOption) {
         this.extraOptions.add(extraOption);
+    }
+
+    public String getExtraOptionsAsString() {
+        return this.extraOptions.stream()
+                .map(ExtraOption::toString)
+                .collect(Collectors.joining(","));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", this.foodOption.toString(), this.getExtraOptionsAsString());
+    }
+
+    public BigDecimal getPrice() {
+        return this.foodOption.getPrice().add(
+                this.extraOptions.stream()
+                        .map(ExtraOption::getPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
     }
 }

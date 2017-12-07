@@ -2,10 +2,10 @@ package be.jorandeboever.services;
 
 import be.jorandeboever.domain.searchresult.PersonChoicesSearchResult;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface PersonChoicesSearchResultService {
 
-    List<PersonChoicesSearchResult> findParticipantsByEventName(String eventName);
+    Collection<PersonChoicesSearchResult> findParticipantsByEventName(String eventName);
 
 }

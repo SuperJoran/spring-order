@@ -1,6 +1,6 @@
 package be.jorandeboever.domain.searchresult;
 
-import be.jorandeboever.domain.FoodOption;
+import be.jorandeboever.domain.SelectedChoice;
 import be.jorandeboever.utilities.CurrencyFormatUtility;
 
 import java.math.BigDecimal;
@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 public class PersonChoicesSearchResult {
 
     private final String username;
-    private final Collection<FoodOption> selectedFoodOptions;
+    private final Collection<SelectedChoice> selectedFoodOptions;
 
-    public PersonChoicesSearchResult(String username, Collection<FoodOption> selectedFoodOptions) {
+    public PersonChoicesSearchResult(String username, Collection<SelectedChoice> selectedFoodOptions) {
         this.username = username;
         this.selectedFoodOptions = selectedFoodOptions;
     }
@@ -21,19 +21,19 @@ public class PersonChoicesSearchResult {
         return this.username;
     }
 
-    public Collection<FoodOption> getSelectedChoices() {
+    public Collection<SelectedChoice> getSelectedChoices() {
         return this.selectedFoodOptions;
     }
 
     public String getSelectedChoicesAsString() {
         return this.selectedFoodOptions.stream()
-                .map(FoodOption::toString)
+                .map(SelectedChoice::toString)
                 .collect(Collectors.joining(", "));
     }
 
     public String getTotalPrice() {
         return CurrencyFormatUtility.formatAmount(this.selectedFoodOptions.stream()
-                .map(FoodOption::getPrice)
+                .map(SelectedChoice::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 }
