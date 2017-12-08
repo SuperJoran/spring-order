@@ -23,6 +23,10 @@ public class NewFoodOptionController {
         this.foodOptionConfigurationService = foodOptionConfigurationService;
     }
 
+    private static ModelAndView redirectToAddFood(@PathVariable("configUuid") String configUuid) {
+        return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
+    }
+
     @GetMapping("/event/{configUuid}/add_food")
     public ModelAndView foodForm(@PathVariable("configUuid") String configUuid) {
         ModelAndView modelAndView = new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByUuid(configUuid));
@@ -38,7 +42,7 @@ public class NewFoodOptionController {
         foodOptionConfiguration.addFoodOption(foodOption);
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
 
-        return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
+        return redirectToAddFood(configUuid);
     }
 
     @GetMapping("/event/{configUuid}/food/{foodOptionUuid}/add_extra")
@@ -64,7 +68,7 @@ public class NewFoodOptionController {
                 .ifPresent(o -> o.addExtraOption(extraOption));
 
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
-        return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
+        return redirectToAddFood(configUuid);
 
     }
 

@@ -3,27 +3,23 @@ package be.jorandeboever.controllers;
 import be.jorandeboever.services.EventService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
-
 @Controller
 @Transactional
-public class ProfileController {
+public class DeleteEventController {
 
     private final EventService eventService;
 
-    public ProfileController(EventService eventService) {
+    public DeleteEventController(EventService eventService) {
         this.eventService = eventService;
     }
 
-    @RequestMapping("/profile")
-    public ModelAndView profilePage(Principal principal) {
-        return new ModelAndView("profile", "events", this.eventService.findByOwnerUsername(principal.getName()));
-    }
-
-    public static ModelAndView redirectToProfile() {
-        return new ModelAndView("redirect:/profile");
+    @RequestMapping("/event/{eventName}/delete")
+    public ModelAndView deleteEvent(@PathVariable String eventName) {
+        this.eventService.deleteByName(eventName);
+        return ProfileController.redirectToProfile();
     }
 }

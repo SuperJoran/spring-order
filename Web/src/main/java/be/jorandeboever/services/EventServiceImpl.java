@@ -28,4 +28,9 @@ public class EventServiceImpl implements EventService {
     public List<Event> findByOwnerUsername(String username) {
         return this.eventDao.findByOwnerUsername(username);
     }
+
+    @Override
+    public void deleteByName(String eventName) {
+        this.eventDao.deleteByName(eventName);
+    }
 }

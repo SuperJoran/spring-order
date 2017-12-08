@@ -11,4 +11,6 @@ public interface EventService {
     Event findByName(String name);
 
     List<Event> findByOwnerUsername(String username);
+
+    void deleteByName(String eventName);
 }

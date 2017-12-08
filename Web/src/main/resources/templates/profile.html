@@ -16,6 +16,7 @@
                 <th>Name</th>
                 <th>Date</th>
                 <th>Number of participants</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -28,6 +29,12 @@
                 </td>
                 <td th:text="${event.dateTimeAsString}"></td>
                 <td th:text="${event.numberOfParticipants}"></td>
+                <td>
+                    <a class="btn" th:href="@{'/event/' + ${event.name} + '/delete'}">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        <span th:text="${event.name}"></span>
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>

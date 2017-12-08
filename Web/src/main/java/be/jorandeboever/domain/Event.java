@@ -24,7 +24,7 @@ public class Event extends DomainObject {
     private LocalDateTime dateTime;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "OWNER_UUID")
     private Person owner;
 

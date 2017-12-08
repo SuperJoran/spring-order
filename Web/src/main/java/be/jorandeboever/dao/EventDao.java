@@ -10,4 +10,6 @@ public interface EventDao extends JpaRepository<Event, String> {
     Event findByName(String name);
 
     List<Event> findByOwnerUsername(String username);
+
+    void deleteByName(String eventName);
 }

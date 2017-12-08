@@ -4,7 +4,6 @@ import be.jorandeboever.domain.ExtraOption;
 import be.jorandeboever.domain.FoodOption;
 import be.jorandeboever.domain.SelectedChoice;
 import be.jorandeboever.services.EventService;
-import be.jorandeboever.services.PersonService;
 import be.jorandeboever.services.SelectedChoiceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +22,14 @@ public class InvitationController {
 
     private final EventService eventService;
     private final SelectedChoiceService selectedChoiceService;
-    private final PersonService personService;
 
-    public InvitationController(EventService eventService, SelectedChoiceService selectedChoiceService, PersonService personService) {
+    public InvitationController(EventService eventService, SelectedChoiceService selectedChoiceService) {
         this.eventService = eventService;
         this.selectedChoiceService = selectedChoiceService;
-        this.personService = personService;
+    }
+
+    private static ModelAndView redirectToInvitation(@PathVariable("eventName") String eventName) {
+        return new ModelAndView("redirect:/event/" + eventName + "/invitation");
     }
 
     @GetMapping("/event/{eventName}/invitation")
@@ -63,7 +64,7 @@ public class InvitationController {
 
         this.selectedChoiceService.createSelectedOption(eventName, foodUuid, principal.getName());
 
-        return new ModelAndView("redirect:/event/" + eventName + "/invitation");
+        return this.redirectToInvitation(eventName);
     }
 
     @GetMapping("/event/{eventName}/invitation/{foodUuid}/extra_option/{extraUuid}")
@@ -76,6 +77,6 @@ public class InvitationController {
 
         this.selectedChoiceService.addExtraOption(eventName, foodUuid, extraUuid, principal.getName());
 
-        return new ModelAndView("redirect:/event/" + eventName + "/invitation");
+        return this.redirectToInvitation(eventName);
     }
 }

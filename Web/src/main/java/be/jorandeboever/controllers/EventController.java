@@ -1,10 +1,8 @@
 package be.jorandeboever.controllers;
 
 import be.jorandeboever.domain.Event;
-import be.jorandeboever.domain.FoodOptionConfiguration;
 import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.PersonChoicesSearchResultService;
-import be.jorandeboever.services.PersonService;
 import be.jorandeboever.services.SelectedChoiceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,50 +14,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
-
 @Controller
 @Transactional
 public class EventController {
 
     private final EventService eventService;
     private final PersonChoicesSearchResultService personChoicesSearchResultService;
-    private final PersonService personService;
     private final SelectedChoiceService selectedChoiceService;
 
     //TODO: split controller in multiple controllers
     public EventController(
             EventService eventService,
             PersonChoicesSearchResultService personChoicesSearchResultService,
-            PersonService personService,
             SelectedChoiceService selectedChoiceService
     ) {
         this.eventService = eventService;
         this.personChoicesSearchResultService = personChoicesSearchResultService;
-        this.personService = personService;
         this.selectedChoiceService = selectedChoiceService;
     }
 
-    @GetMapping("/event")
-    public ModelAndView eventForm() {
-        return new ModelAndView("add_event", "event", new Event());
-    }
-
-    @PostMapping("/event")
-    public String eventSubmit(@ModelAttribute Event event, Principal principal) {
-        event.setDateTime(LocalDateTime.now());
-        event.setOwner(this.personService.findByUsername(principal.getName()));
-        event.addFoodOptionConfiguration(new FoodOptionConfiguration(event));
-        this.eventService.saveOrUpdate(event);
-
-        return "redirect:event/" + event.getName();
-    }
 
     @PostMapping("/search")
-    public String searchEvent(@ModelAttribute Event event) {
+    public ModelAndView searchEvent(@ModelAttribute Event event) {
         //todo show error if event not found
-        return "redirect:event/" + event.getName();
+        return redirectToEvent(event.getName());
+    }
+
+    public static ModelAndView redirectToEvent(String eventName) {
+        return new ModelAndView("redirect:/event/" + eventName);
     }
 
     @GetMapping("/event/{eventName}")
@@ -83,7 +65,7 @@ public class EventController {
 
         this.eventService.saveOrUpdate(event);
 
-        return new ModelAndView("redirect:/event/" + eventName);
+        return redirectToEvent(eventName);
     }
 
     @RequestMapping("/event/{eventName}/remove/{username}")
@@ -99,6 +81,6 @@ public class EventController {
 
         this.selectedChoiceService.deleteAllByPersonUsernameAndEventName(username, eventName);
 
-        return new ModelAndView("redirect:/event/" + eventName);
+        return redirectToEvent(event.getName());
     }
 }
