@@ -25,14 +25,14 @@ public class ImportFoodConfigurationController {
     }
 
     @GetMapping("/event/{eventName}/import")
-    public ModelAndView importConfiguration(@PathVariable("eventName") String eventName, Principal principal) {
+    public ModelAndView importConfiguration(@PathVariable String eventName, Principal principal) {
         ModelAndView modelAndView = new ModelAndView("import_food_config", "configurations", this.foodOptionConfigurationService.findAllByEventOwnerUsername(principal.getName()));
         modelAndView.addObject("event", this.eventService.findByName(eventName));
         return modelAndView;
     }
 
     @RequestMapping("/event/{eventName}/import/{configurationUuid}")
-    public ModelAndView eventForm(@PathVariable("eventName") String eventName, @PathVariable("configurationUuid") String configurationUuid) {
+    public ModelAndView eventForm(@PathVariable String eventName, @PathVariable String configurationUuid) {
         this.foodOptionConfigurationService.copyFoodOptionConfiguration(eventName, configurationUuid);
 
         return new ModelAndView("redirect:/event/" + eventName + "/import");

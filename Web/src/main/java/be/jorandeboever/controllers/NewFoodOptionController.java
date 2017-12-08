@@ -23,12 +23,12 @@ public class NewFoodOptionController {
         this.foodOptionConfigurationService = foodOptionConfigurationService;
     }
 
-    private static ModelAndView redirectToAddFood(@PathVariable("configUuid") String configUuid) {
+    private static ModelAndView redirectToAddFood(@PathVariable String configUuid) {
         return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
     }
 
     @GetMapping("/event/{configUuid}/add_food")
-    public ModelAndView foodForm(@PathVariable("configUuid") String configUuid) {
+    public ModelAndView foodForm(@PathVariable String configUuid) {
         ModelAndView modelAndView = new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByUuid(configUuid));
         modelAndView.addObject("food", new FoodOption());
         modelAndView.addObject("extra", new ExtraOption());
@@ -36,7 +36,7 @@ public class NewFoodOptionController {
     }
 
     @PostMapping("/event/{configUuid}/add_food")
-    public ModelAndView foodSubmit(@PathVariable("configUuid") String configUuid, @ModelAttribute FoodOption foodOption) {
+    public ModelAndView foodSubmit(@PathVariable String configUuid, @ModelAttribute FoodOption foodOption) {
         FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByUuid(configUuid);
         foodOption.setConfiguration(foodOptionConfiguration);
         foodOptionConfiguration.addFoodOption(foodOption);
@@ -47,7 +47,7 @@ public class NewFoodOptionController {
 
     @GetMapping("/event/{configUuid}/food/{foodOptionUuid}/add_extra")
     public ModelAndView extraForm(
-            @PathVariable("configUuid") String configUuid,
+            @PathVariable String configUuid,
             @PathVariable String foodOptionUuid
     ) {
         FoodOptionConfiguration config = this.foodOptionConfigurationService.findByUuid(configUuid);
@@ -59,7 +59,7 @@ public class NewFoodOptionController {
 
     @PostMapping("/event/{configUuid}/food/{foodOptionUuid}/add_extra")
     public ModelAndView extraSubmit(
-            @PathVariable("configUuid") String configUuid,
+            @PathVariable String configUuid,
             @PathVariable String foodOptionUuid,
             @ModelAttribute ExtraOption extraOption
     ) {

@@ -28,12 +28,12 @@ public class InvitationController {
         this.selectedChoiceService = selectedChoiceService;
     }
 
-    private static ModelAndView redirectToInvitation(@PathVariable("eventName") String eventName) {
+    private static ModelAndView redirectToInvitation(@PathVariable String eventName) {
         return new ModelAndView("redirect:/event/" + eventName + "/invitation");
     }
 
     @GetMapping("/event/{eventName}/invitation")
-    public ModelAndView eventForm(@PathVariable("eventName") String eventName, Principal principal) {
+    public ModelAndView eventForm(@PathVariable String eventName, Principal principal) {
         ModelAndView modelAndView = new ModelAndView("invitation", "event", this.eventService.findByName(eventName));
         List<SelectedChoice> selectedChoices = this.selectedChoiceService.findByEventName(eventName);
         modelAndView.addObject("selectedFoodOptions", this.getAlreadySelectedFoodOptions(selectedChoices, principal));
@@ -57,8 +57,8 @@ public class InvitationController {
 
     @GetMapping("/event/{eventName}/invitation/{foodUuid}")
     public ModelAndView acceptFoodOption(
-            @PathVariable("eventName") String eventName,
-            @PathVariable("foodUuid") String foodUuid,
+            @PathVariable String eventName,
+            @PathVariable String foodUuid,
             Principal principal
     ) {
 
@@ -69,9 +69,9 @@ public class InvitationController {
 
     @GetMapping("/event/{eventName}/invitation/{foodUuid}/extra_option/{extraUuid}")
     public ModelAndView acceptExtraOption(
-            @PathVariable("eventName") String eventName,
-            @PathVariable("foodUuid") String foodUuid,
-            @PathVariable("extraUuid") String extraUuid,
+            @PathVariable String eventName,
+            @PathVariable String foodUuid,
+            @PathVariable String extraUuid,
             Principal principal
     ) {
 

@@ -1,5 +1,6 @@
 package be.jorandeboever.domain;
 
+import be.jorandeboever.utilities.BigDecimalUtility;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -79,7 +80,7 @@ public class SelectedChoice extends DomainObject {
     }
 
     public BigDecimal getPrice() {
-        return this.foodOption.getPrice().add(
+        return BigDecimalUtility.add(this.foodOption.getPrice(),
                 this.extraOptions.stream()
                         .map(ExtraOption::getPrice)
                         .reduce(BigDecimal.ZERO, BigDecimal::add)

@@ -45,7 +45,7 @@ public class EventController {
     }
 
     @GetMapping("/event/{eventName}")
-    public ModelAndView overview(@PathVariable("eventName") String eventName) {
+    public ModelAndView overview(@PathVariable String eventName) {
         ModelAndView modelAndView = new ModelAndView("event", "event", this.eventService.findByName(eventName));
         modelAndView.addObject("participants", this.personChoicesSearchResultService.findParticipantsByEventName(eventName));
         return modelAndView;
@@ -53,9 +53,9 @@ public class EventController {
 
     @PostMapping("/event/{eventName}/food/{foodName}/add_user")
     public ModelAndView simpleUserAdd(
-            @PathVariable("eventName") String eventName,
-            @PathVariable("foodName") String foodName,
-            @RequestParam("username") String username
+            @PathVariable String eventName,
+            @PathVariable String foodName,
+            @RequestParam String username
     ) {
         Event event = this.eventService.findByName(eventName);
         event.getFoodOptionConfiguration().getFoodOptions().stream()
@@ -70,8 +70,8 @@ public class EventController {
 
     @RequestMapping("/event/{eventName}/remove/{username}")
     public ModelAndView simpleUserRemove(
-            @PathVariable("eventName") String eventName,
-            @PathVariable("username") String username
+            @PathVariable String eventName,
+            @PathVariable String username
     ) {
         Event event = this.eventService.findByName(eventName);
         event.getFoodOptionConfiguration().getFoodOptions()
