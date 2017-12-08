@@ -23,7 +23,7 @@
 
     <div th:each="configuration: ${event.foodOptionConfigurations}">
         <h2 th:text="${configuration.name}"></h2>
-        <a class="btn btn-primary" th:href="@{'/event/' + ${configuration.uuid} + '/add_food'}">
+        <a class="btn btn-primary" th:href="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/add_food'}">
             <i class="fa fa-plus-square" aria-hidden="true"></i>
             Add food
         </a>

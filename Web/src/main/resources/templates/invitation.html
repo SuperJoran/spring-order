@@ -7,6 +7,8 @@
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container">
+    <a th:replace="fragments/backlink :: event (eventName=${event.name})"></a>
+
     <h1>Invitation</h1>
     <div>
         <span>You are invited for event: </span>

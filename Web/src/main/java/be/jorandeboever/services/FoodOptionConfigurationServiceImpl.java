@@ -38,6 +38,11 @@ public class FoodOptionConfigurationServiceImpl implements FoodOptionConfigurati
     }
 
     @Override
+    public FoodOptionConfiguration findByEventNameAndName(String eventName, String name) {
+        return this.foodOptionConfigurationDao.findByEventNameAndName(eventName, name);
+    }
+
+    @Override
     public FoodOptionConfiguration createOrUpdate(FoodOptionConfiguration foodOptionConfiguration) {
         return this.foodOptionConfigurationDao.save(foodOptionConfiguration);
     }

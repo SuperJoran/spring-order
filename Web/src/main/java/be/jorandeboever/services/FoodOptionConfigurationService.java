@@ -12,5 +12,7 @@ public interface FoodOptionConfigurationService {
 
     FoodOptionConfiguration findByUuid(String uuid);
 
+    FoodOptionConfiguration findByEventNameAndName(String eventName, String name);
+
     FoodOptionConfiguration createOrUpdate(FoodOptionConfiguration foodOptionConfiguration);
 }

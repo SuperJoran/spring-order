@@ -8,7 +8,8 @@
 
 <div class="container">
 
-    <h1 th:text="'Event: ' + ${configuration.event.name}">Event: </h1>
+    <a th:replace="fragments/backlink :: event (eventName=${configuration.event.name})"></a>
+
     <h2 th:text="${configuration.name}"></h2>
 
     <div class="row">
@@ -26,7 +27,7 @@
                             <span class="badge badge-light" th:text="${extraOption.priceAsString}"></span>
                         </li>
                         <li  class="list-group-item">
-                            <form th:if="${food.uuid == foodOption.uuid}" action="#" th:action="@{'/event/' + ${configuration.uuid} + '/food/' + ${foodOption.uuid} + '/add_extra'}" th:object="${extra}" method="POST">
+                            <form th:if="${food.uuid == foodOption.uuid}" action="#" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_extra'}" th:object="${extra}" method="POST">
                                 <label>
                                     <input type="text" th:field="*{name}" class="form-control" />
                                 </label>
@@ -35,7 +36,7 @@
                                 </label>
                                 <button type="submit" value="Submit" class="btn btn-primary">Add</button>
                             </form>
-                            <a th:if="${food.uuid!=foodOption.uuid}" class="btn btn-secondary btn-block" th:href="@{'/event/' + ${configuration.uuid} + '/food/' + ${foodOption.uuid} + '/add_extra'}">
+                            <a th:if="${food.uuid!=foodOption.uuid}" class="btn btn-secondary btn-block" th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_extra'}">
                                 <i class="fa fa-plus-square" aria-hidden="true"></i>
                                 Add Extra
                             </a>
@@ -47,7 +48,7 @@
         </div>
 
         <div class="col-md-4" th:if="${food.uuid==null}">
-            <form  action="#" th:action="@{'/event/' + ${configuration.uuid} +'/add_food'}" th:object="${food}" method="POST">
+            <form  action="#" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/add_food'}" th:object="${food}" method="POST">
                 <div class="card" >
                     <div class="card-header">
                         <i class="fa fa-cutlery"></i>

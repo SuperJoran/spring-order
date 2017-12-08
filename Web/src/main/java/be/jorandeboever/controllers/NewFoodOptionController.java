@@ -23,59 +23,61 @@ public class NewFoodOptionController {
         this.foodOptionConfigurationService = foodOptionConfigurationService;
     }
 
-    private static ModelAndView redirectToAddFood(@PathVariable String configUuid) {
-        return new ModelAndView("redirect:/event/" + configUuid + "/add_food");
+    private static ModelAndView redirectToAddFood(String eventName, String configName) {
+        return new ModelAndView("redirect:/event/" + eventName + "/" + configName + "/add_food");
     }
 
-    @GetMapping("/event/{configUuid}/add_food")
-    public ModelAndView foodForm(@PathVariable String configUuid) {
-        ModelAndView modelAndView = new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByUuid(configUuid));
+    @GetMapping("/event/{eventName}/{configName}/add_food")
+    public ModelAndView foodForm(@PathVariable String configName, @PathVariable String eventName) {
+        ModelAndView modelAndView = new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName));
         modelAndView.addObject("food", new FoodOption());
         modelAndView.addObject("extra", new ExtraOption());
         return modelAndView;
     }
 
-    @PostMapping("/event/{configUuid}/add_food")
-    public ModelAndView foodSubmit(@PathVariable String configUuid, @ModelAttribute FoodOption foodOption) {
-        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByUuid(configUuid);
+    @PostMapping("/event/{eventName}/{configName}/add_food")
+    public ModelAndView foodSubmit(@PathVariable String configName, @ModelAttribute FoodOption foodOption, @PathVariable String eventName) {
+        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
         foodOption.setConfiguration(foodOptionConfiguration);
         foodOptionConfiguration.addFoodOption(foodOption);
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
 
-        return redirectToAddFood(configUuid);
+        return redirectToAddFood(eventName, configName);
     }
 
-    @GetMapping("/event/{configUuid}/food/{foodOptionUuid}/add_extra")
+    @GetMapping("/event/{eventName}/{configName}/{foodName}/add_extra")
     public ModelAndView extraForm(
-            @PathVariable String configUuid,
-            @PathVariable String foodOptionUuid
+            @PathVariable String configName,
+            @PathVariable String eventName,
+            @PathVariable String foodName
     ) {
-        FoodOptionConfiguration config = this.foodOptionConfigurationService.findByUuid(configUuid);
+        FoodOptionConfiguration config = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
         ModelAndView modelAndView = new ModelAndView("add_food", "configuration", config);
-        modelAndView.addObject("food", this.getFoodOption(foodOptionUuid, config).orElse(null));
+        modelAndView.addObject("food", this.getFoodOption(foodName, config).orElse(null));
         modelAndView.addObject("extra", new ExtraOption());
         return modelAndView;
     }
 
-    @PostMapping("/event/{configUuid}/food/{foodOptionUuid}/add_extra")
+    @PostMapping("/event/{eventName}/{configName}/{foodName}/add_extra")
     public ModelAndView extraSubmit(
-            @PathVariable String configUuid,
-            @PathVariable String foodOptionUuid,
+            @PathVariable String configName,
+            @PathVariable String eventName,
+            @PathVariable String foodName,
             @ModelAttribute ExtraOption extraOption
     ) {
-        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByUuid(configUuid);
-        this.getFoodOption(foodOptionUuid, foodOptionConfiguration)
+        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
+        this.getFoodOption(foodName, foodOptionConfiguration)
                 .ifPresent(o -> o.addExtraOption(extraOption));
 
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
-        return redirectToAddFood(configUuid);
+        return redirectToAddFood(eventName, configName);
 
     }
 
-    private Optional<FoodOption> getFoodOption(String foodOptionUuid, FoodOptionConfiguration foodOptionConfiguration) {
+    private Optional<FoodOption> getFoodOption(String foodName, FoodOptionConfiguration foodOptionConfiguration) {
         return foodOptionConfiguration.getFoodOptions()
                 .stream()
-                .filter(o -> o.getUuid().equals(foodOptionUuid))
+                .filter(o -> o.getName().equals(foodName))
                 .findFirst();
     }
 }
