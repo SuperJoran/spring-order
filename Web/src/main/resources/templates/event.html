@@ -40,6 +40,7 @@
                 <th>Name</th>
                 <th>Price</th>
                 <th>Extra options</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -47,6 +48,14 @@
                 <td th:text="${foodOption.name}"></td>
                 <td th:text="${foodOption.price}"></td>
                 <td th:text="${foodOption.extraOptionsAsString}"></td>
+                <td>
+                    <form th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
+                        <button type="submit" class="btn btn-primary" th:href="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            delete
+                        </button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

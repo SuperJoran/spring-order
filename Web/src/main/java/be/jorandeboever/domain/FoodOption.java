@@ -24,7 +24,7 @@ public class FoodOption extends DomainObject {
     private String name;
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "CONFIGURATION_UUID", nullable = false)
     private FoodOptionConfiguration configuration;
 

@@ -19,6 +19,12 @@
                     <i class="fa fa-cutlery"></i>
                     <span th:text="${foodOption.name}"></span>
                     <span class="badge badge-light" th:text="${foodOption.priceAsString}"></span>
+
+                    <form th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
+                        <button type="submit" class="btn btn-sm" style="display: inline;" th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/delete'}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </form>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
