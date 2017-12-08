@@ -14,12 +14,15 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Name</th>
             <th>Eventname</th>
             <th>Number of food choices</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="configuration: ${configurations}">
+            <td th:text="${configuration.name}"></td>
             <td th:text="${configuration.event.name}"></td>
             <td th:text="${configuration.numberOfFoodOptions}"></td>
             <td th:with="alreadyImported=${#lists.contains(event.foodOptionConfigurations, configuration)}">

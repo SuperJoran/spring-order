@@ -27,9 +27,17 @@ public class FoodOptionConfigurationServiceImpl implements FoodOptionConfigurati
         FoodOptionConfiguration oldConfiguration = this.foodOptionConfigurationDao.findOne(foodOptionConfigurationUuid);
         FoodOptionConfiguration newConfiguration = new FoodOptionConfiguration(oldConfiguration);
         Event event = this.eventService.findByName(eventName);
+        this.checkIfEventAlreadyContainsConfigWithSameName(oldConfiguration, newConfiguration, event);
+
         newConfiguration.setEvent(event);
 
         this.foodOptionConfigurationDao.save(newConfiguration);
+    }
+
+    private void checkIfEventAlreadyContainsConfigWithSameName(FoodOptionConfiguration oldConfiguration, FoodOptionConfiguration newConfiguration, Event event) {
+        if(event.getFoodOptionConfigurations().stream().anyMatch(config -> config.getName().equals(newConfiguration.getName()))){
+            newConfiguration.setName(String.format("%s (imported from %s)", newConfiguration.getName(), oldConfiguration.getEvent().getName()));
+        }
     }
 
     @Override
