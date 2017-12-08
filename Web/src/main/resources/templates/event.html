@@ -36,7 +36,7 @@
             edit
         </a>
 
-        <form th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}" method="post">
+        <form style="display: inline" th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}" method="post">
             <button type="submit" class="btn btn-primary" th:href="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}">
                 <i class="fa fa-trash" aria-hidden="true"></i>
                 delete

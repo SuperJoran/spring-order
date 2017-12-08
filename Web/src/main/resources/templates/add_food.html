@@ -20,7 +20,7 @@
                     <span th:text="${foodOption.name}"></span>
                     <span class="badge badge-light" th:text="${foodOption.priceAsString}"></span>
 
-                    <form th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
+                    <form style="display: inline; float: right;" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
                         <button type="submit" class="btn btn-sm" style="display: inline;" th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/delete'}">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>
@@ -67,8 +67,6 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" value="Submit" class="btn btn-primary">Add and continue</button>
-                        <a th:href="@{'/event/' + ${configuration.event.name}}" type="cancel" class="btn btn-secondary">Add</a>
-
                     </div>
                 </div>
             </form>
