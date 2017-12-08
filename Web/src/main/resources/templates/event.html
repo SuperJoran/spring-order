@@ -21,7 +21,7 @@
     </a>
 
 
-    <div th:each="configuration: ${event.foodOptionConfigurations}">
+    <div th:each="configuration: ${foodOptionConfigurations}">
         <h2 th:text="${configuration.name}"></h2>
         <form th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}" method="post">
             <button type="submit" class="btn btn-primary" th:href="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}">

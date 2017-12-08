@@ -1,7 +1,6 @@
 package be.jorandeboever.controllers;
 
 import be.jorandeboever.domain.Event;
-import be.jorandeboever.domain.FoodOptionConfiguration;
 import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.PersonService;
 import org.springframework.stereotype.Controller;
@@ -34,7 +33,6 @@ public class AddEventController {
     public String eventSubmit(@ModelAttribute Event event, Principal principal) {
         event.setDateTime(LocalDateTime.now());
         event.setOwner(this.personService.findByUsername(principal.getName()));
-        event.addFoodOptionConfiguration(new FoodOptionConfiguration(event));
         this.eventService.saveOrUpdate(event);
 
         return "redirect:event/" + event.getName();

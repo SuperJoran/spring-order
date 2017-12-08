@@ -13,4 +13,6 @@ public interface FoodOptionConfigurationDao extends JpaRepository<FoodOptionConf
     void deleteByEventNameAndName(String eventName, String name);
 
     void deleteFoodOptionConfigurationByEventNameAndName(String eventName, String name);
+
+    List<FoodOptionConfiguration> findAllByEventName(String eventName);
 }

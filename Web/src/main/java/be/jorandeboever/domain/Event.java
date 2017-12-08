@@ -28,7 +28,7 @@ public class Event extends DomainObject {
     @JoinColumn(name = "OWNER_UUID")
     private Person owner;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER,  mappedBy = "event")
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER,  mappedBy = "event")
     @Fetch(FetchMode.SELECT)
     private List<FoodOptionConfiguration> foodOptionConfigurations = new ArrayList<>();
 
@@ -77,14 +77,6 @@ public class Event extends DomainObject {
 
     public void setOwner(Person owner) {
         this.owner = owner;
-    }
-
-    public FoodOptionConfiguration getFoodOptionConfiguration() {
-        return this.foodOptionConfigurations.stream().findFirst().orElse(null);
-    }
-
-    public void addFoodOptionConfiguration(FoodOptionConfiguration foodOptionConfiguration) {
-        this.foodOptionConfigurations.add(foodOptionConfiguration);
     }
 
     public List<FoodOptionConfiguration> getFoodOptionConfigurations() {

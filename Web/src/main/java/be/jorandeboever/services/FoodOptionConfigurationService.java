@@ -17,4 +17,6 @@ public interface FoodOptionConfigurationService {
     FoodOptionConfiguration createOrUpdate(FoodOptionConfiguration foodOptionConfiguration);
 
     void deleteByEventNameAndName(String eventName, String name);
+
+    List<FoodOptionConfiguration> findAllByEventName(String eventName);
 }

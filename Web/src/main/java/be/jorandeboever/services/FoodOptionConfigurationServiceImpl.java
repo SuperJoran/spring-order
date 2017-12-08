@@ -59,4 +59,9 @@ public class FoodOptionConfigurationServiceImpl implements FoodOptionConfigurati
     public void deleteByEventNameAndName(String eventName, String name) {
        this.foodOptionConfigurationDao.deleteFoodOptionConfigurationByEventNameAndName(eventName, name);
     }
+
+    @Override
+    public List<FoodOptionConfiguration> findAllByEventName(String eventName) {
+        return this.foodOptionConfigurationDao.findAllByEventName(eventName);
+    }
 }

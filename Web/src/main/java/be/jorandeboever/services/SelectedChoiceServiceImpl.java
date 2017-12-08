@@ -1,7 +1,7 @@
 package be.jorandeboever.services;
 
 import be.jorandeboever.dao.SelectedChoiceDao;
-import be.jorandeboever.domain.Event;
+import be.jorandeboever.domain.FoodOptionConfiguration;
 import be.jorandeboever.domain.Person;
 import be.jorandeboever.domain.SelectedChoice;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,13 @@ import java.util.List;
 public class SelectedChoiceServiceImpl implements SelectedChoiceService {
     private final SelectedChoiceDao selectedChoiceDao;
 
-    private final EventService eventService;
     private final PersonService personService;
+    private final FoodOptionConfigurationService foodOptionConfigurationService;
 
-    public SelectedChoiceServiceImpl(SelectedChoiceDao selectedChoiceDao, EventService eventService, PersonService personService) {
+    public SelectedChoiceServiceImpl(SelectedChoiceDao selectedChoiceDao, PersonService personService, FoodOptionConfigurationService foodOptionConfigurationService) {
         this.selectedChoiceDao = selectedChoiceDao;
-        this.eventService = eventService;
         this.personService = personService;
+        this.foodOptionConfigurationService = foodOptionConfigurationService;
     }
 
     @Override
@@ -28,11 +28,12 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
 
     @Override
     public SelectedChoice createSelectedOption(String eventName, String foodUuid, String username) {
-        Event event = this.eventService.findByName(eventName);
+        List<FoodOptionConfiguration> foodOptionConfigurations = this.foodOptionConfigurationService.findAllByEventName(eventName);
         SelectedChoice selectedChoice = new SelectedChoice((Person) this.personService.loadUserByUsername(username));
 
         selectedChoice.setFoodOption(
-                event.getFoodOptionConfiguration().getFoodOptions().stream()
+                foodOptionConfigurations.stream()
+                        .flatMap(config -> config.getFoodOptions().stream())
                         .filter(foodOption -> foodOption.getUuid().equals(foodUuid))
                         .findFirst().orElse(null)
         );
