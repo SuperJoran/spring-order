@@ -21,7 +21,7 @@ public class FoodOptionConfiguration extends DomainObject {
     @JoinColumn(name = "EVENT_UUID", nullable = false)
     private Event event;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "configuration")
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "configuration")
     @Fetch(FetchMode.SELECT)
     private final List<FoodOption> foodOptions = new ArrayList<>();
 

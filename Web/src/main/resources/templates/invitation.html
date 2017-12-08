@@ -15,29 +15,31 @@
         <a th:href="@{'/event/' + ${event.name}}"><span th:text="${event.name}">Eventname</span> </a>
     </div>
 
-    <h2>Options</h2>
-    <div class="row">
-        <div th:each="foodOption: ${event.foodOptionConfiguration.foodOptions}" class=" col-lg-6">
-            <div th:with="alreadySelected=${#lists.contains(selectedFoodOptions, foodOption)}">
-                <div class="card bg-dark">
-                    <div th:classappend="${alreadySelected ? 'bg-success' : 'bg-secondary'}" class="card-header text-white">
-                        <i class="fa fa-cutlery"></i>
-                        <span th:text="${foodOption.name}">Name</span>
-                        <span th:text="${foodOption.priceAsString}" class="badge badge-light"></span>
+    <div th:each="config: ${event.foodOptionConfigurations}">
+        <h2 th:text="${config.name}"></h2>
+        <div class="row">
+            <div th:each="foodOption: ${config.foodOptions}" class=" col-lg-6">
+                <div th:with="alreadySelected=${#lists.contains(selectedFoodOptions, foodOption)}">
+                    <div class="card bg-dark">
+                        <div th:classappend="${alreadySelected ? 'bg-success' : 'bg-secondary'}" class="card-header text-white">
+                            <i class="fa fa-cutlery"></i>
+                            <span th:text="${foodOption.name}">Name</span>
+                            <span th:text="${foodOption.priceAsString}" class="badge badge-light"></span>
 
-                        <i th:if="${alreadySelected}" style="float: right;" class="fa fa-check-circle-o" aria-hidden="true"></i>
-                        <a th:if="${!alreadySelected}" style="float: right;" class="text-white"
-                           th:href="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid}}">Choose</a>
-                    </div>
-                    <div class="card-body text-white">
-                        <div th:each="extraOption: ${foodOption.extraOptions}">
-                            <div th:with="alreadySelectedExtra=${#lists.contains(selectedExtraOptions, extraOption)}">
-                                <a th:classappend="${alreadySelectedExtra ? 'btn-success' : 'btn-secondary'}" class="btn btn-secondary"
-                                   th:href="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid} + '/extra_option/' + ${extraOption.uuid}}">
+                            <i th:if="${alreadySelected}" style="float: right;" class="fa fa-check-circle-o" aria-hidden="true"></i>
+                            <a th:if="${!alreadySelected}" style="float: right;" class="text-white"
+                               th:href="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid}}">Choose</a>
+                        </div>
+                        <div class="card-body text-white">
+                            <div th:each="extraOption: ${foodOption.extraOptions}">
+                                <div th:with="alreadySelectedExtra=${#lists.contains(selectedExtraOptions, extraOption)}">
+                                    <a th:classappend="${alreadySelectedExtra ? 'btn-success' : 'btn-secondary'}" class="btn btn-secondary"
+                                       th:href="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid} + '/extra_option/' + ${extraOption.uuid}}">
 
-                                    <span th:text="${extraOption.name}"></span>
-                                    <span th:text="${extraOption.priceAsString}" class="badge badge-light"></span>
-                                </a>
+                                        <span th:text="${extraOption.name}"></span>
+                                        <span th:text="${extraOption.priceAsString}" class="badge badge-light"></span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
