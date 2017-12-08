@@ -54,4 +54,9 @@ public class FoodOptionConfigurationServiceImpl implements FoodOptionConfigurati
     public FoodOptionConfiguration createOrUpdate(FoodOptionConfiguration foodOptionConfiguration) {
         return this.foodOptionConfigurationDao.save(foodOptionConfiguration);
     }
+
+    @Override
+    public void deleteByEventNameAndName(String eventName, String name) {
+       this.foodOptionConfigurationDao.deleteFoodOptionConfigurationByEventNameAndName(eventName, name);
+    }
 }

@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -51,36 +49,4 @@ public class EventController {
         return modelAndView;
     }
 
-    @PostMapping("/event/{eventName}/food/{foodName}/add_user")
-    public ModelAndView simpleUserAdd(
-            @PathVariable String eventName,
-            @PathVariable String foodName,
-            @RequestParam String username
-    ) {
-        Event event = this.eventService.findByName(eventName);
-        event.getFoodOptionConfiguration().getFoodOptions().stream()
-                .filter(o -> o.getName().equals(foodName))
-                .findFirst()
-                .ifPresent(o -> o.addSimpleUser(username));
-
-        this.eventService.saveOrUpdate(event);
-
-        return redirectToEvent(eventName);
-    }
-
-    @RequestMapping("/event/{eventName}/remove/{username}")
-    public ModelAndView simpleUserRemove(
-            @PathVariable String eventName,
-            @PathVariable String username
-    ) {
-        Event event = this.eventService.findByName(eventName);
-        event.getFoodOptionConfiguration().getFoodOptions()
-                .forEach(o -> o.removeSimpleUser(username));
-
-        this.eventService.saveOrUpdate(event);
-
-        this.selectedChoiceService.deleteAllByPersonUsernameAndEventName(username, eventName);
-
-        return redirectToEvent(event.getName());
-    }
 }

@@ -15,4 +15,6 @@ public interface FoodOptionConfigurationService {
     FoodOptionConfiguration findByEventNameAndName(String eventName, String name);
 
     FoodOptionConfiguration createOrUpdate(FoodOptionConfiguration foodOptionConfiguration);
+
+    void deleteByEventNameAndName(String eventName, String name);
 }

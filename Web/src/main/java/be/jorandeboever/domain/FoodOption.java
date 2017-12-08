@@ -6,9 +6,6 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -18,7 +15,6 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Entity
@@ -28,18 +24,12 @@ public class FoodOption extends DomainObject {
     private String name;
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "CONFIGURATION_UUID", nullable = false)
     private FoodOptionConfiguration configuration;
 
     @Formula("(SELECT COUNT(*) FROM SPR_SELECTED_CHOICE choice WHERE choice.FOOD_OPTION_UUID = UUID)")
     private int count;
-
-    @Deprecated
-    @ElementCollection
-    @CollectionTable(name = "SPR_SIMPLE_USER", joinColumns = @JoinColumn(name = "food_option_uuid"))
-    @Column(name = "username")
-    private final Collection<String> simpleUsers = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "FOOD_OPTION_UUID", nullable = false)
@@ -94,19 +84,7 @@ public class FoodOption extends DomainObject {
     }
 
     public int getCount() {
-        return this.count + this.simpleUsers.size();
-    }
-
-    public Collection<String> getSimpleUsers() {
-        return this.simpleUsers;
-    }
-
-    public void addSimpleUser(String username) {
-        this.simpleUsers.add(username);
-    }
-
-    public void removeSimpleUser(String username) {
-        this.simpleUsers.remove(username);
+        return this.count;
     }
 
     public FoodOptionConfiguration getConfiguration() {
