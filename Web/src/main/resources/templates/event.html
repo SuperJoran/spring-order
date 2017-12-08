@@ -22,7 +22,20 @@
 
 
     <div th:each="configuration: ${foodOptionConfigurations}">
-        <h2 th:text="${configuration.name}"></h2>
+        <h2 style="display: inline;" th:text="${configuration.name}"></h2>
+
+        <form style="display: none" class="nameForm" th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/change_name'}" method="post">
+            <label><input name="name" th:value="${configuration.name}"/></label>
+            <button type="submit" class="btn">
+                Submit
+            </button>
+        </form>
+
+        <a onclick="$(this).closest('div').find('.nameForm').css('display', 'initial');$(this).css('display', 'none');$(this).closest('div').find('h2').css('display', 'none');">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            edit
+        </a>
+
         <form th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}" method="post">
             <button type="submit" class="btn btn-primary" th:href="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/delete'}">
                 <i class="fa fa-trash" aria-hidden="true"></i>
