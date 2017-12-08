@@ -20,8 +20,8 @@ public class OpenshiftDataSource {
             @Value("${application.db.owner.driver}") String driverClassname,
             @Value("${application.db.owner.user}") String username,
             @Value("${application.db.owner.password}") String password,
-            @Value("${OPENSHIFT_POSTGRESQL_DB_HOST}") String host,
-            @Value("${OPENSHIFT_POSTGRESQL_DB_PORT}") String port
+            @Value("${POSTGRESQL_HOST}") String host,
+            @Value("${POSTGRESQL_PORT}") String port
     ) {
         LOG.info(() -> "Using openshift datasource");
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
