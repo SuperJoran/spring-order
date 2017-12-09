@@ -25,7 +25,7 @@
         <h2 style="display: inline;" th:text="${configuration.name}"></h2>
 
         <form style="display: none" class="nameForm" th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} + '/change_name'}" method="post">
-            <label><input name="name" th:value="${configuration.name}"/></label>
+            <label><input class="form-control" name="name" th:value="${configuration.name}"/></label>
             <button type="submit" class="btn">
                 Submit
             </button>

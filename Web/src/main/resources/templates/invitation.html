@@ -49,7 +49,7 @@
                             </div>
 
                         </div>
-                        <div class="card-body text-white">
+                        <div class="card-body text-white" th:if="${!#lists.isEmpty(foodOption.extraOptions)}">
                             <div th:each="extraOption: ${foodOption.extraOptions}">
                                 <div th:with="alreadySelectedExtra=${#lists.contains(selectedExtraOptions, extraOption)}">
                                     <a th:classappend="${alreadySelectedExtra ? 'btn-success' : 'btn-secondary'}" class="btn btn-secondary"
