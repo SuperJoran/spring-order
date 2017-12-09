@@ -65,7 +65,7 @@ public class SelectedChoice extends DomainObject {
     }
 
     public void setFoodOption(FoodOption foodOption) {
-        this.getSize().setFoodOption(foodOption);
+        this.setSize(foodOption.getSizesToChooseFrom().stream().findFirst().orElse(null));
     }
 
     public List<ExtraOption> getExtraOptions() {

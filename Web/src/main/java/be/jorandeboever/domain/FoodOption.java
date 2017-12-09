@@ -55,6 +55,10 @@ public class FoodOption extends DomainObject {
         this.addSize(new Size("Default", price));
     }
 
+    public boolean isMultipleSizes() {
+        return this.sizesToChooseFrom.size() > 1;
+    }
+
     public Collection<ExtraOption> getExtraOptions() {
         return this.extraOptions;
     }

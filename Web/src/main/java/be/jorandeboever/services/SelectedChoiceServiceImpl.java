@@ -65,4 +65,21 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
     public void deleteAllByPersonUsernameAndEventName(String username, String eventName) {
         this.selectedChoiceDao.deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Event_Name(username, eventName);
     }
+
+    @Override
+    public void chooseSize(String eventName, String configName, String foodName, String sizeName, String username) {
+        FoodOptionConfiguration configuration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
+
+        SelectedChoice selectedChoice = new SelectedChoice((Person) this.personService.loadUserByUsername(username));
+
+        selectedChoice.setSize(
+                configuration.getFoodOptions().stream()
+                        .filter(foodOption -> foodOption.getName().equals(foodName))
+                        .flatMap(foodOption -> foodOption.getSizesToChooseFrom().stream())
+                        .filter(size -> sizeName.equals(size.getName()))
+                        .findFirst().orElse(null)
+        );
+
+        this.createOrUpdate(selectedChoice);
+    }
 }

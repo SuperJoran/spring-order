@@ -19,16 +19,28 @@
         <h2 th:text="${config.name}"></h2>
         <div class="row">
             <div th:each="foodOption: ${config.foodOptions}" class=" col-lg-6">
-                <div th:with="alreadySelected=${#lists.contains(selectedFoodOptions, foodOption)}">
+                <div th:with="alreadySelected=${#lists.contains(selectedFoodOptions, foodOption)}, hasMultipleSizes=${#lists.size(foodOption.sizesToChooseFrom) > 1}">
                     <div class="card bg-dark">
                         <div th:classappend="${alreadySelected ? 'bg-success' : 'bg-secondary'}" class="card-header text-white">
                             <i class="fa fa-cutlery"></i>
                             <span th:text="${foodOption.name}">Name</span>
-                            <span th:text="${foodOption.priceAsString}" class="badge badge-light"></span>
+                            <div th:if="${!hasMultipleSizes}">
+                                <span th:text="${foodOption.priceAsString}" class="badge badge-light"></span>
 
-                            <i th:if="${alreadySelected}" style="float: right;" class="fa fa-check-circle-o" aria-hidden="true"></i>
-                            <a th:if="${!alreadySelected}" style="float: right;" class="text-white"
-                               th:href="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid}}">Choose</a>
+                                <i th:if="${alreadySelected}" style="float: right;" class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                <a th:if="${!alreadySelected}" style="float: right;" class="text-white"
+                                   th:href="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid}}">Choose</a>
+                            </div>
+
+                            <div style="display: inline;" th:if="${hasMultipleSizes}" th:each="size: ${foodOption.sizesToChooseFrom}">
+                                <form th:action="@{'/event/' + ${event.name} + '/invitation/' + ${config.name} + '/' + ${foodOption.name} + '/' + ${size.name}}" method="post">
+                                    <button type="submit" style="float: right;" class="btn btn-primary"
+                                       th:href="@{'/event/' + ${event.name} + '/invitation/' + ${config.name} + '/' + ${foodOption.name} + '/' + ${size.name}}">
+                                        <span th:text="${size.name} + ': ' + ${size.priceAsString}"></span>
+                                    </button>
+                                </form>
+                            </div>
+
                         </div>
                         <div class="card-body text-white">
                             <div th:each="extraOption: ${foodOption.extraOptions}">

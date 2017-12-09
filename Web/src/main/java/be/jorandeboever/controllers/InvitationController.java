@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -64,7 +65,7 @@ public class InvitationController {
 
         this.selectedChoiceService.createSelectedOption(eventName, foodUuid, principal.getName());
 
-        return this.redirectToInvitation(eventName);
+        return redirectToInvitation(eventName);
     }
 
     @GetMapping("/event/{eventName}/invitation/{foodUuid}/extra_option/{extraUuid}")
@@ -77,6 +78,19 @@ public class InvitationController {
 
         this.selectedChoiceService.addExtraOption(eventName, foodUuid, extraUuid, principal.getName());
 
-        return this.redirectToInvitation(eventName);
+        return redirectToInvitation(eventName);
+    }
+
+    @PostMapping("/event/{eventName}/invitation/{configName}/{foodName}/{sizeName}")
+    public ModelAndView chooseSize(
+            @PathVariable String eventName,
+            @PathVariable String configName,
+            @PathVariable String foodName,
+            @PathVariable String sizeName,
+            Principal principal
+    ) {
+        this.selectedChoiceService.chooseSize(eventName, configName, foodName, sizeName, principal.getName());
+
+        return redirectToInvitation(eventName);
     }
 }
