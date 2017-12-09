@@ -52,7 +52,7 @@ public class FoodOption extends DomainObject {
 
     public FoodOption(String name, BigDecimal price) {
         this.name = name;
-        this.addSize(new Size("Default", price));
+        this.addSize(new Size("Default", price, this));
     }
 
     public boolean isMultipleSizes() {
@@ -83,7 +83,7 @@ public class FoodOption extends DomainObject {
 
     public BigDecimal getPrice() {
         if (this.sizesToChooseFrom.isEmpty()) {
-            this.addSize(new Size("Default", null));
+            this.addSize(new Size("Default", null, this));
         }
         return this.sizesToChooseFrom.stream().findFirst().map(Size::getPrice).orElse(null);
     }

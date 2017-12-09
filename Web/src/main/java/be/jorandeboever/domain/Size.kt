@@ -22,9 +22,10 @@ class Size : DomainObject {
 
     constructor()
 
-    constructor(name: String, price: BigDecimal?) {
+    constructor(name: String, price: BigDecimal? = null, foodOption: FoodOption?) {
         this.name = name
         this.price = price
+        this.foodOption = foodOption
     }
 
     override fun toString(): String {
