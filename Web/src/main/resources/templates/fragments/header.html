@@ -21,7 +21,18 @@
                 <a class="nav-link" href="/new_event">Add an event</a>
             </li>
         </ul>
+
         <ul class="nav navbar-nav ml-auto">
+            <li>
+                <form class="form-inline" action="#" th:action="@{/search}" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" id="searchName"/>
+                        <button type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </form>
+            </li>
             <li th:if="${#authorization.expression('!isAuthenticated()')}">
                 <a class="nav-link" href="/login" th:href="@{/login}">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>Sign in
@@ -41,6 +52,7 @@
                 </a>
                 <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
             </li>
+
         </ul>
     </div>
 </nav>

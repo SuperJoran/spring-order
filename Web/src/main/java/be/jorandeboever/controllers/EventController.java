@@ -50,4 +50,9 @@ public class EventController {
         return modelAndView;
     }
 
+    @GetMapping("/{eventName}")
+    public ModelAndView home(@PathVariable String eventName) {
+        return redirectToEvent(eventName);
+    }
+
 }
