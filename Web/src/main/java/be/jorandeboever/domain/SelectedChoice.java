@@ -84,11 +84,17 @@ public class SelectedChoice extends DomainObject {
 
     @Override
     public String toString() {
-        return String.format("%s %s", this.getFoodOption().toString(), this.getExtraOptionsAsString());
+        StringBuilder sb = new StringBuilder(String.format("%s ", this.getFoodOption().getName()));
+        if (this.getFoodOption().hasMultipleSizes()) {
+            sb.append(this.size.getName())
+                    .append(" ");
+        }
+        sb.append(this.size.getPriceAsString());
+        return String.format("%s %s", sb.toString(), this.getExtraOptionsAsString());
     }
 
     public BigDecimal getPrice() {
-        return BigDecimalUtility.add(this.getFoodOption().getPrice(),
+        return BigDecimalUtility.add(this.getSize().getPrice(),
                 this.extraOptions.stream()
                         .map(ExtraOption::getPrice)
                         .reduce(BigDecimal.ZERO, BigDecimal::add)

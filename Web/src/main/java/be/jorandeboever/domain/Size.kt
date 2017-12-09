@@ -26,4 +26,8 @@ class Size : DomainObject {
         this.name = name
         this.price = price
     }
+
+    override fun toString(): String {
+        return this.name + " " + this.priceAsString
+    }
 }

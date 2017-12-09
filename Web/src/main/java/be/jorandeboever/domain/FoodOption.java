@@ -92,6 +92,10 @@ public class FoodOption extends DomainObject {
         this.sizesToChooseFrom.stream().findFirst().ifPresent(size -> size.setPrice(price));
     }
 
+    public boolean hasMultipleSizes() {
+        return this.sizesToChooseFrom.size() > 1;
+    }
+
     public String getPriceAsString() {
         return CurrencyFormatUtility.formatAmount(this.getPrice());
     }
@@ -118,6 +122,9 @@ public class FoodOption extends DomainObject {
 
     @Override
     public String toString() {
-        return String.format("%s: %s", this.getName(), this.getPriceAsString());
+        return this.getName() + " " +
+                this.sizesToChooseFrom.stream()
+                        .map(Size::toString)
+                        .collect(Collectors.joining(", "));
     }
 }
