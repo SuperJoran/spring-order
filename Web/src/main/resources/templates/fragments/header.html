@@ -5,7 +5,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark" th:fragment="header">
-    <a class="navbar-brand" href="#">Organize your order</a>
+    <a class="navbar-brand" href="#">Springorder</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="navbar-toggler-icon"></span>
@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav nav">
             <li class="nav-item">
-                <a class="nav-link" href="/admin/users">Users</a>
+                <a th:href="@{/profile}" class="nav-link">Your events</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/new_event">Add an event</a>
