@@ -1,5 +1,6 @@
 package be.jorandeboever.domain
 
+import be.jorandeboever.utilities.CurrencyFormatUtility
 import java.math.BigDecimal
 import javax.persistence.Entity
 import javax.persistence.Table
@@ -15,5 +16,9 @@ class Size : DomainObject {
     constructor(name: String, price: BigDecimal?) : super() {
         this.name = name
         this.price = price
+    }
+
+    fun getPriceAsString(): String? {
+        return CurrencyFormatUtility.formatAmount(this.price)
     }
 }

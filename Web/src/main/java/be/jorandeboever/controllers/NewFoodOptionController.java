@@ -3,6 +3,7 @@ package be.jorandeboever.controllers;
 import be.jorandeboever.domain.ExtraOption;
 import be.jorandeboever.domain.FoodOption;
 import be.jorandeboever.domain.FoodOptionConfiguration;
+import be.jorandeboever.domain.Size;
 import be.jorandeboever.services.FoodOptionConfigurationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,8 +46,8 @@ public class NewFoodOptionController {
         return redirectToAddFood(eventName, configName);
     }
 
-    @GetMapping("/event/{eventName}/{configName}/{foodName}/add_extra")
-    public ModelAndView extraForm(
+    @GetMapping("/event/{eventName}/{configName}/{foodName}/edit")
+    public ModelAndView editFoodOption(
             @PathVariable String configName,
             @PathVariable String eventName,
             @PathVariable String foodName
@@ -59,7 +60,7 @@ public class NewFoodOptionController {
     }
 
     @PostMapping("/event/{eventName}/{configName}/{foodName}/add_extra")
-    public ModelAndView extraSubmit(
+    public ModelAndView addExtra(
             @PathVariable String configName,
             @PathVariable String eventName,
             @PathVariable String foodName,
@@ -71,7 +72,21 @@ public class NewFoodOptionController {
 
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
         return redirectToAddFood(eventName, configName);
+    }
 
+    @PostMapping("/event/{eventName}/{configName}/{foodName}/add_size")
+    public ModelAndView addPrice(
+            @PathVariable String configName,
+            @PathVariable String eventName,
+            @PathVariable String foodName,
+            @ModelAttribute Size newSize
+    ) {
+        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
+        this.getFoodOption(foodName, foodOptionConfiguration)
+                .ifPresent(o -> o.addSize(newSize));
+
+        this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
+        return redirectToAddFood(eventName, configName);
     }
 
     private Optional<FoodOption> getFoodOption(String foodName, FoodOptionConfiguration foodOptionConfiguration) {

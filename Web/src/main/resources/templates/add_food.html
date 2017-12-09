@@ -14,38 +14,55 @@
 
     <div class="row">
         <div class="col-md-4" th:each="foodOption: ${configuration.foodOptions}">
-            <div class="card" >
+            <div class="card">
                 <div class="card-header">
                     <i class="fa fa-cutlery"></i>
                     <span th:text="${foodOption.name}"></span>
                     <span class="badge badge-light" th:text="${foodOption.priceAsString}"></span>
 
-                    <form style="display: inline; float: right;" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
-                        <button type="submit" class="btn btn-sm" style="display: inline;" th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/delete'}">
+                    <form style="display: inline; float: right;"
+                          th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
+                        <button type="submit" class="btn btn-sm" style="display: inline;"
+                                th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/delete'}">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>
                     </form>
+                    <a style="display: inline; float: right;" th:if="${food.uuid!=foodOption.uuid}" class="btn btn-sm"
+                       th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/edit'}">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
+                        <li class="list-group-item list-group-item-info">Sizes</li>
+                        <li th:each="size: ${foodOption.sizesToChooseFrom}" class="list-group-item">
+                            <span th:text="${size.name}"></span>
+                            <span class="badge badge-light" th:text="${size.priceAsString}"></span>
+                        </li>
+                        <li class="list-group-item" th:if="${food.uuid == foodOption.uuid}">
+                            <form class="form-inline" action="#"
+                                  th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_size'}" method="POST">
+                                <input style="width: 40%;" placeholder="name" type="text" name="name" class="form-control"/>
+                                <input style="width: 30%;" placeholder="price" type="number" step="any" min="0" name="price" class="form-control"/>
+                                <button type="submit" value="Submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-info">Extra options</li>
                         <li th:each="extraOption: ${foodOption.extraOptions}" class="list-group-item">
                             <span th:text="${extraOption.name}"></span>
                             <span class="badge badge-light" th:text="${extraOption.priceAsString}"></span>
                         </li>
-                        <li  class="list-group-item">
-                            <form th:if="${food.uuid == foodOption.uuid}" action="#" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_extra'}" th:object="${extra}" method="POST">
-                                <label>
-                                    <input type="text" th:field="*{name}" class="form-control" />
-                                </label>
-                                <label for="price">
-                                    <input type="text" th:field="*{price}" class="form-control"/>
-                                </label>
+                        <li class="list-group-item" th:if="${food.uuid == foodOption.uuid}">
+                            <form action="#"
+                                  th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_extra'}" method="POST">
+                                <input style="width: 40%;" placeholder="name" type="text" name="name" class="form-control"/>
+                                <input style="width: 40%;" placeholder="price" type="number" step="any" min="0" name="price" class="form-control"/>
                                 <button type="submit" value="Submit" class="btn btn-primary">Add</button>
                             </form>
-                            <a th:if="${food.uuid!=foodOption.uuid}" class="btn btn-secondary btn-block" th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_extra'}">
-                                <i class="fa fa-plus-square" aria-hidden="true"></i>
-                                Add Extra
-                            </a>
                         </li>
                     </ul>
 
@@ -54,8 +71,8 @@
         </div>
 
         <div class="col-md-4" th:if="${food.uuid==null}">
-            <form  action="#" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/add_food'}" th:object="${food}" method="POST">
-                <div class="card" >
+            <form action="#" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/add_food'}" th:object="${food}" method="POST">
+                <div class="card">
                     <div class="card-header">
                         <i class="fa fa-cutlery"></i>
                         <label for="name">
@@ -72,8 +89,6 @@
             </form>
         </div>
     </div>
-
-
 
 
 </div>
