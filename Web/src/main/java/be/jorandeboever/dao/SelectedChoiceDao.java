@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface SelectedChoiceDao extends JpaRepository<SelectedChoice, String> {
 
-    List<SelectedChoice> findAllByFoodOption_Configuration_Event_Name(String eventName);
+    List<SelectedChoice> findAllBySize_FoodOption_Configuration_Event_Name(String eventName);
 
-    void deleteAllByPerson_UsernameAndFoodOption_Configuration_Event_Name(String username, String eventName);
+    void deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Event_Name(String username, String eventName);
 }

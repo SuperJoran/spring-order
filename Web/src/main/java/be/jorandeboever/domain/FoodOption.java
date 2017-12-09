@@ -28,7 +28,9 @@ public class FoodOption extends DomainObject {
     @JoinColumn(name = "CONFIGURATION_UUID", nullable = false)
     private FoodOptionConfiguration configuration;
 
-    @Formula("(SELECT COUNT(*) FROM SPR_SELECTED_CHOICE choice WHERE choice.FOOD_OPTION_UUID = UUID)")
+    @Formula("(SELECT COUNT(*) FROM SPR_SELECTED_CHOICE choice" +
+            "  INNER JOIN spr_size size on choice.size_uuid = size.uuid\n" +
+            "  WHERE size.FOOD_OPTION_UUID = UUID)")
     private int count;
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
@@ -36,8 +38,7 @@ public class FoodOption extends DomainObject {
     @Fetch(FetchMode.SELECT)
     private final Collection<ExtraOption> extraOptions = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "FOOD_OPTION_UUID", nullable = false)
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "foodOption")
     @Fetch(FetchMode.SELECT)
     @OrderBy("price")
     private final Collection<Size> sizesToChooseFrom = new HashSet<>();
@@ -77,7 +78,7 @@ public class FoodOption extends DomainObject {
     }
 
     public BigDecimal getPrice() {
-        if(this.sizesToChooseFrom.isEmpty()) {
+        if (this.sizesToChooseFrom.isEmpty()) {
             this.addSize(new Size("Default", null));
         }
         return this.sizesToChooseFrom.stream().findFirst().map(Size::getPrice).orElse(null);

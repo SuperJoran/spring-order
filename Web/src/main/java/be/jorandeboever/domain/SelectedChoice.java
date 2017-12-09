@@ -26,8 +26,8 @@ public class SelectedChoice extends DomainObject {
     private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "FOOD_OPTION_UUID")
-    private FoodOption foodOption;
+    @JoinColumn(name = "SIZE_UUID")
+    private Size size;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "SPR_SELECTED_EXTRA",
@@ -44,6 +44,14 @@ public class SelectedChoice extends DomainObject {
         this.person = person;
     }
 
+    public Size getSize() {
+        return this.size;
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
+    }
+
     public Person getPerson() {
         return this.person;
     }
@@ -53,11 +61,11 @@ public class SelectedChoice extends DomainObject {
     }
 
     public FoodOption getFoodOption() {
-        return this.foodOption;
+        return this.getSize().getFoodOption();
     }
 
     public void setFoodOption(FoodOption foodOption) {
-        this.foodOption = foodOption;
+        this.getSize().setFoodOption(foodOption);
     }
 
     public List<ExtraOption> getExtraOptions() {
@@ -76,11 +84,11 @@ public class SelectedChoice extends DomainObject {
 
     @Override
     public String toString() {
-        return String.format("%s %s", this.foodOption.toString(), this.getExtraOptionsAsString());
+        return String.format("%s %s", this.getFoodOption().toString(), this.getExtraOptionsAsString());
     }
 
     public BigDecimal getPrice() {
-        return BigDecimalUtility.add(this.foodOption.getPrice(),
+        return BigDecimalUtility.add(this.getFoodOption().getPrice(),
                 this.extraOptions.stream()
                         .map(ExtraOption::getPrice)
                         .reduce(BigDecimal.ZERO, BigDecimal::add)

@@ -58,11 +58,11 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
 
     @Override
     public List<SelectedChoice> findByEventName(String eventName) {
-        return this.selectedChoiceDao.findAllByFoodOption_Configuration_Event_Name(eventName);
+        return this.selectedChoiceDao.findAllBySize_FoodOption_Configuration_Event_Name(eventName);
     }
 
     @Override
     public void deleteAllByPersonUsernameAndEventName(String username, String eventName) {
-        this.selectedChoiceDao.deleteAllByPerson_UsernameAndFoodOption_Configuration_Event_Name(username, eventName);
+        this.selectedChoiceDao.deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Event_Name(username, eventName);
     }
 }
