@@ -65,14 +65,15 @@ public class InvitationController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/event/{eventName}/invitation/{foodUuid}")
+    @PostMapping("/event/{eventName}/invitation/{configName}/{foodName}")
     public ModelAndView acceptFoodOption(
             @PathVariable String eventName,
-            @PathVariable String foodUuid,
+            @PathVariable String configName,
+            @PathVariable String foodName,
             Principal principal
     ) {
 
-        this.selectedChoiceService.createSelectedOption(eventName, foodUuid, principal.getName());
+        this.selectedChoiceService.chooseFood(eventName, configName, foodName, principal.getName());
 
         return redirectToInvitation(eventName);
     }

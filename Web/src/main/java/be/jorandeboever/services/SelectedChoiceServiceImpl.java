@@ -27,21 +27,6 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
     }
 
     @Override
-    public SelectedChoice createSelectedOption(String eventName, String foodUuid, String username) {
-        List<FoodOptionConfiguration> foodOptionConfigurations = this.foodOptionConfigurationService.findAllByEventName(eventName);
-        SelectedChoice selectedChoice = new SelectedChoice((Person) this.personService.loadUserByUsername(username));
-
-        selectedChoice.setFoodOption(
-                foodOptionConfigurations.stream()
-                        .flatMap(config -> config.getFoodOptions().stream())
-                        .filter(foodOption -> foodOption.getUuid().equals(foodUuid))
-                        .findFirst().orElse(null)
-        );
-
-        return this.createOrUpdate(selectedChoice);
-    }
-
-    @Override
     public SelectedChoice addExtraOption(String eventName, String foodUuid, String extraUuid, String username) {
         SelectedChoice selectedChoice = this.findByEventName(eventName).stream()
                 .filter(c -> c.getPerson().getUsername().equals(username))
@@ -76,6 +61,25 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
                         .flatMap(foodOption -> foodOption.getSizesToChooseFrom().stream())
                         .filter(size -> sizeName.equals(size.getName()))
                         .findFirst().orElse(null)
+        );
+
+        this.createOrUpdate(selectedChoice);
+    }
+
+    @Override
+    public void chooseFood(String eventName, String configName, String foodName, String username) {
+        this.selectedChoiceDao.deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Name(username, configName);
+
+        FoodOptionConfiguration configuration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
+
+        SelectedChoice selectedChoice = new SelectedChoice((Person) this.personService.loadUserByUsername(username));
+
+        selectedChoice.setSize(
+                configuration.getFoodOptions().stream()
+                        .filter(foodOption -> foodOption.getName().equals(foodName))
+                        .flatMap(foodOption -> foodOption.getSizesToChooseFrom().stream())
+                        .findFirst()
+                        .orElse(null)
         );
 
         this.createOrUpdate(selectedChoice);

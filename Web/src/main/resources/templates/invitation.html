@@ -26,7 +26,7 @@
                             <span th:text="${foodOption.name}">Name</span>
                             <div style="display: inline;" th:if="${!hasMultipleSizes}">
                                 <form style="display: inline;"
-                                      th:action="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid}}"
+                                      th:action="@{'/event/' + ${event.name} + '/invitation/' + ${config.name} + '/' + ${foodOption.name}}"
                                       method="post">
                                     <button type="submit" th:classappend="${alreadySelected ? 'btn-success' : 'btn-secondary' }" style="float: right;" class="btn">
                                         <span th:text="${foodOption.priceAsString}"></span>
