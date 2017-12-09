@@ -22,8 +22,7 @@
 
                     <form style="display: inline; float: right;"
                           th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
-                        <button type="submit" class="btn btn-sm" style="display: inline;"
-                                th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/delete'}">
+                        <button type="submit" class="btn btn-sm" style="display: inline;">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>
                     </form>
@@ -37,7 +36,13 @@
                         <li class="list-group-item list-group-item-info">Sizes</li>
                         <li th:each="size: ${foodOption.sizesToChooseFrom}" class="list-group-item">
                             <span th:text="${size.name}"></span>
-                            <span class="badge badge-light" th:text="${size.priceAsString}"></span>
+                            <span class="badge badge-dark" th:text="${size.priceAsString}"></span>
+                            <form style="display: inline; float: right;"
+                                  th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/' + ${size.name} + '/delete'}" method="post">
+                                <button type="submit" class="btn btn-sm" style="display: inline;">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </form>
                         </li>
                         <li class="list-group-item" th:if="${editModus}">
                             <form class="form-inline" action="#"
@@ -54,7 +59,7 @@
                         <li class="list-group-item list-group-item-info">Extra options</li>
                         <li th:each="extraOption: ${foodOption.extraOptions}" class="list-group-item">
                             <span th:text="${extraOption.name}"></span>
-                            <span class="badge badge-light" th:text="${extraOption.priceAsString}"></span>
+                            <span class="badge badge-dark" th:text="${extraOption.priceAsString}"></span>
                         </li>
                         <li class="list-group-item" th:if="${editModus}">
                             <form action="#"

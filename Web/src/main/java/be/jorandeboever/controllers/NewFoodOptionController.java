@@ -79,7 +79,7 @@ public class NewFoodOptionController {
     }
 
     @PostMapping("/event/{eventName}/{configName}/{foodName}/add_size")
-    public ModelAndView addPrice(
+    public ModelAndView addSize(
             @PathVariable String configName,
             @PathVariable String eventName,
             @PathVariable String foodName,
@@ -92,6 +92,24 @@ public class NewFoodOptionController {
                     newSize.setFoodOption(option);
                     option.addSize(newSize);
                 });
+
+        this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
+        return redirectToAddFood(eventName, configName);
+    }
+
+    @PostMapping("/event/{eventName}/{configName}/{foodName}/{sizeName}/delete")
+    public ModelAndView deleteSize(
+            @PathVariable String configName,
+            @PathVariable String eventName,
+            @PathVariable String foodName,
+            @PathVariable String sizeName
+    ) {
+        FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
+
+        foodOptionConfiguration.getFoodOptions().stream()
+                .filter(f -> foodName.equals(f.getName()))
+                .findFirst()
+                .ifPresent(foodOption -> foodOption.getSizesToChooseFrom().removeIf(size -> sizeName.equals(size.getName())));
 
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
         return redirectToAddFood(eventName, configName);
