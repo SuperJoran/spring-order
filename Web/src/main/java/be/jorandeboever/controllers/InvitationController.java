@@ -3,6 +3,7 @@ package be.jorandeboever.controllers;
 import be.jorandeboever.domain.ExtraOption;
 import be.jorandeboever.domain.FoodOption;
 import be.jorandeboever.domain.SelectedChoice;
+import be.jorandeboever.domain.Size;
 import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.SelectedChoiceService;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,15 @@ public class InvitationController {
         List<SelectedChoice> selectedChoices = this.selectedChoiceService.findByEventName(eventName);
         modelAndView.addObject("selectedFoodOptions", this.getAlreadySelectedFoodOptions(selectedChoices, principal));
         modelAndView.addObject("selectedExtraOptions", this.getAlreadySelectedExtraOptions(selectedChoices, principal));
+        modelAndView.addObject("selectedSizes", this.getAlreadySelectedSizes(selectedChoices, principal));
         return modelAndView;
+    }
+
+    private List<Size> getAlreadySelectedSizes(Collection<SelectedChoice> selectedChoices, Principal principal) {
+        return selectedChoices.stream()
+                .filter(c -> c.getPerson().getUsername().equals(principal.getName()))
+                .map(SelectedChoice::getSize)
+                .collect(Collectors.toList());
     }
 
     private List<FoodOption> getAlreadySelectedFoodOptions(Collection<SelectedChoice> selectedChoices, Principal principal) {
@@ -56,7 +65,7 @@ public class InvitationController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/event/{eventName}/invitation/{foodUuid}")
+    @PostMapping("/event/{eventName}/invitation/{foodUuid}")
     public ModelAndView acceptFoodOption(
             @PathVariable String eventName,
             @PathVariable String foodUuid,

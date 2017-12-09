@@ -20,23 +20,30 @@
         <div class="row">
             <div th:each="foodOption: ${config.foodOptions}" class=" col-lg-6">
                 <div th:with="alreadySelected=${#lists.contains(selectedFoodOptions, foodOption)}, hasMultipleSizes=${#lists.size(foodOption.sizesToChooseFrom) > 1}">
-                    <div class="card bg-dark">
-                        <div th:classappend="${alreadySelected ? 'bg-success' : 'bg-secondary'}" class="card-header text-white">
+                    <div class="card">
+                        <div class="card-header">
                             <i class="fa fa-cutlery"></i>
                             <span th:text="${foodOption.name}">Name</span>
-                            <div th:if="${!hasMultipleSizes}">
-                                <span th:text="${foodOption.priceAsString}" class="badge badge-light"></span>
-
-                                <i th:if="${alreadySelected}" style="float: right;" class="fa fa-check-circle-o" aria-hidden="true"></i>
-                                <a th:if="${!alreadySelected}" style="float: right;" class="text-white"
-                                   th:href="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid}}">Choose</a>
+                            <div style="display: inline;" th:if="${!hasMultipleSizes}">
+                                <form style="display: inline;"
+                                      th:action="@{'/event/' + ${event.name} + '/invitation/' + ${foodOption.uuid}}"
+                                      method="post">
+                                    <button type="submit" th:classappend="${alreadySelected ? 'btn-success' : 'btn-secondary' }" style="float: right;" class="btn">
+                                        <span th:text="${foodOption.priceAsString}"></span>
+                                        <i th:if="${alreadySelected}" class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                    </button>
+                                </form>
                             </div>
 
                             <div style="display: inline;" th:if="${hasMultipleSizes}" th:each="size: ${foodOption.sizesToChooseFrom}">
-                                <form th:action="@{'/event/' + ${event.name} + '/invitation/' + ${config.name} + '/' + ${foodOption.name} + '/' + ${size.name}}" method="post">
-                                    <button type="submit" style="float: right;" class="btn btn-primary"
-                                       th:href="@{'/event/' + ${event.name} + '/invitation/' + ${config.name} + '/' + ${foodOption.name} + '/' + ${size.name}}">
+                                <form style="display: inline;"
+                                      th:action="@{'/event/' + ${event.name} + '/invitation/' + ${config.name} + '/' + ${foodOption.name} + '/' + ${size.name}}" method="post">
+                                    <button type="submit" style="float: right;" class="btn"
+                                            th:classappend="${#lists.contains(selectedSizes, size) ? 'btn-success' : 'btn-secondary'}"
+                                            th:href="@{'/event/' + ${event.name} + '/invitation/' + ${config.name} + '/' + ${foodOption.name} + '/' + ${size.name}}">
                                         <span th:text="${size.name} + ': ' + ${size.priceAsString}"></span>
+                                        <i th:if="${#lists.contains(selectedSizes, size)}" class="fa fa-check-circle-o" aria-hidden="true"></i>
+
                                     </button>
                                 </form>
                             </div>

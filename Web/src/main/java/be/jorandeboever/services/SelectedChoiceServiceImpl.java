@@ -61,13 +61,11 @@ public class SelectedChoiceServiceImpl implements SelectedChoiceService {
         return this.selectedChoiceDao.findAllBySize_FoodOption_Configuration_Event_Name(eventName);
     }
 
-    @Override
-    public void deleteAllByPersonUsernameAndEventName(String username, String eventName) {
-        this.selectedChoiceDao.deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Event_Name(username, eventName);
-    }
 
     @Override
     public void chooseSize(String eventName, String configName, String foodName, String sizeName, String username) {
+        this.selectedChoiceDao.deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Name(username, configName);
+
         FoodOptionConfiguration configuration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
 
         SelectedChoice selectedChoice = new SelectedChoice((Person) this.personService.loadUserByUsername(username));

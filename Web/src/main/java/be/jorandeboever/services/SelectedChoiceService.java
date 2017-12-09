@@ -13,7 +13,5 @@ public interface SelectedChoiceService {
 
     List<SelectedChoice> findByEventName(String eventName);
 
-    void deleteAllByPersonUsernameAndEventName(String username, String eventName);
-
     void chooseSize(String eventName, String configName, String foodName, String sizeName, String username);
 }

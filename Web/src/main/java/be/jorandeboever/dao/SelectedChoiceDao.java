@@ -9,5 +9,5 @@ public interface SelectedChoiceDao extends JpaRepository<SelectedChoice, String>
 
     List<SelectedChoice> findAllBySize_FoodOption_Configuration_Event_Name(String eventName);
 
-    void deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Event_Name(String username, String eventName);
+    void deleteAllByPerson_UsernameAndSize_FoodOption_Configuration_Name(String username, String configName);
 }
