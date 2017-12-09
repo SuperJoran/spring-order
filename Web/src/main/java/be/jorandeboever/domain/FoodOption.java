@@ -11,10 +11,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Entity
@@ -22,7 +23,6 @@ import java.util.stream.Collectors;
 public class FoodOption extends DomainObject {
 
     private String name;
-    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "CONFIGURATION_UUID", nullable = false)
@@ -34,19 +34,24 @@ public class FoodOption extends DomainObject {
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "FOOD_OPTION_UUID", nullable = false)
     @Fetch(FetchMode.SELECT)
-    private final Collection<ExtraOption> extraOptions = new ArrayList<>();
+    private final Collection<ExtraOption> extraOptions = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "FOOD_OPTION_UUID", nullable = false)
+    @Fetch(FetchMode.SELECT)
+    @OrderBy("price")
+    private final Collection<Size> sizesToChooseFrom = new HashSet<>();
 
     public FoodOption() {
     }
 
     public FoodOption(FoodOption otherFoodOption) {
         this.name = otherFoodOption.name;
-        this.price = otherFoodOption.price;
     }
 
     public FoodOption(String name, BigDecimal price) {
         this.name = name;
-        this.price = price;
+        this.addSize(new Size("Default", price));
     }
 
     public Collection<ExtraOption> getExtraOptions() {
@@ -72,15 +77,18 @@ public class FoodOption extends DomainObject {
     }
 
     public BigDecimal getPrice() {
-        return this.price;
+        if(this.sizesToChooseFrom.isEmpty()) {
+            this.addSize(new Size("Default", null));
+        }
+        return this.sizesToChooseFrom.stream().findFirst().map(Size::getPrice).orElse(null);
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.sizesToChooseFrom.stream().findFirst().ifPresent(size -> size.setPrice(price));
     }
 
     public String getPriceAsString() {
-        return CurrencyFormatUtility.formatAmount(this.price);
+        return CurrencyFormatUtility.formatAmount(this.getPrice());
     }
 
     public int getCount() {
@@ -89,6 +97,14 @@ public class FoodOption extends DomainObject {
 
     public FoodOptionConfiguration getConfiguration() {
         return this.configuration;
+    }
+
+    public Collection<Size> getSizesToChooseFrom() {
+        return this.sizesToChooseFrom;
+    }
+
+    public final void addSize(Size size) {
+        this.sizesToChooseFrom.add(size);
     }
 
     public void setConfiguration(FoodOptionConfiguration configuration) {
