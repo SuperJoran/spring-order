@@ -25,18 +25,22 @@ public class NewFoodOptionController {
     }
 
     private static ModelAndView redirectToAddFood(String eventName, String configName) {
-        return new ModelAndView("redirect:/event/" + eventName + "/" + configName + "/add_food");
+        return new ModelAndView("redirect:/event/" + eventName + "/" + configName + "/add");
     }
 
-    @GetMapping("/event/{eventName}/{configName}/add_food")
+    @GetMapping("/event/{eventName}/{configName}")
+    public ModelAndView foodOveriew(@PathVariable String configName, @PathVariable String eventName) {
+        return new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName));
+    }
+
+    @GetMapping("/event/{eventName}/{configName}/add")
     public ModelAndView foodForm(@PathVariable String configName, @PathVariable String eventName) {
         ModelAndView modelAndView = new ModelAndView("add_food", "configuration", this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName));
         modelAndView.addObject("food", new FoodOption());
-        modelAndView.addObject("extra", new ExtraOption());
         return modelAndView;
     }
 
-    @PostMapping("/event/{eventName}/{configName}/add_food")
+    @PostMapping("/event/{eventName}/{configName}/add")
     public ModelAndView foodSubmit(@PathVariable String configName, @ModelAttribute FoodOption foodOption, @PathVariable String eventName) {
         FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
         foodOption.setConfiguration(foodOptionConfiguration);

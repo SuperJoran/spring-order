@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col-md-4" th:each="foodOption: ${configuration.foodOptions}">
-            <div class="card">
+            <div class="card" th:with="editModus=${food != null and food.uuid==foodOption.uuid}">
                 <div class="card-header">
                     <i class="fa fa-cutlery"></i>
                     <span th:text="${foodOption.name}"></span>
@@ -27,7 +27,7 @@
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>
                     </form>
-                    <a style="display: inline; float: right;" th:if="${food.uuid!=foodOption.uuid}" class="btn btn-sm"
+                    <a style="display: inline; float: right;" th:if="${!editModus}" class="btn btn-sm"
                        th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/edit'}">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
@@ -39,7 +39,7 @@
                             <span th:text="${size.name}"></span>
                             <span class="badge badge-light" th:text="${size.priceAsString}"></span>
                         </li>
-                        <li class="list-group-item" th:if="${food.uuid == foodOption.uuid}">
+                        <li class="list-group-item" th:if="${editModus}">
                             <form class="form-inline" action="#"
                                   th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_size'}" method="POST">
                                 <input style="width: 40%;" placeholder="name" type="text" name="name" class="form-control"/>
@@ -56,7 +56,7 @@
                             <span th:text="${extraOption.name}"></span>
                             <span class="badge badge-light" th:text="${extraOption.priceAsString}"></span>
                         </li>
-                        <li class="list-group-item" th:if="${food.uuid == foodOption.uuid}">
+                        <li class="list-group-item" th:if="${editModus}">
                             <form action="#"
                                   th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/' + ${foodOption.name} + '/add_extra'}" method="POST">
                                 <input style="width: 40%;" placeholder="name" type="text" name="name" class="form-control"/>
@@ -70,8 +70,8 @@
             </div>
         </div>
 
-        <div class="col-md-4" th:if="${food.uuid==null}">
-            <form action="#" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/add_food'}" th:object="${food}" method="POST">
+        <div class="col-md-4" th:if="${food != null and food.uuid==null}">
+            <form action="#" th:action="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} +'/add'}" th:object="${food}" method="POST">
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-cutlery"></i>
@@ -87,6 +87,20 @@
                     </div>
                 </div>
             </form>
+        </div>
+
+
+        <div class="col-md-4" th:if="${food == null or food.uuid != null}">
+            <div class="card">
+                <div class="card-header">
+                    <a  class="btn btn-block"
+                       th:href="@{'/event/' + ${configuration.event.name} + '/' + ${configuration.name} + '/add'}">
+                        <i class="fa fa-plus-square" aria-hidden="true"></i>
+                        <span>Add</span>
+                    </a>
+                </div>
+
+            </div>
         </div>
     </div>
 
