@@ -86,8 +86,12 @@ public class NewFoodOptionController {
             @ModelAttribute Size newSize
     ) {
         FoodOptionConfiguration foodOptionConfiguration = this.foodOptionConfigurationService.findByEventNameAndName(eventName, configName);
+
         this.getFoodOption(foodName, foodOptionConfiguration)
-                .ifPresent(o -> o.addSize(newSize));
+                .ifPresent(option -> {
+                    newSize.setFoodOption(option);
+                    option.addSize(newSize);
+                });
 
         this.foodOptionConfigurationService.createOrUpdate(foodOptionConfiguration);
         return redirectToAddFood(eventName, configName);
