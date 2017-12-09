@@ -28,6 +28,6 @@ class Size : DomainObject {
     }
 
     override fun toString(): String {
-        return this.name + " " + this.priceAsString
+        return if(foodOption?.hasMultipleSizes() == true) "${name} ${priceAsString}" else "${priceAsString}"
     }
 }

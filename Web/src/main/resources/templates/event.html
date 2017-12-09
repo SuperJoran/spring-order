@@ -59,7 +59,7 @@
             <tbody>
             <tr th:each="foodOption: ${configuration.foodOptions}">
                 <td th:text="${foodOption.name}"></td>
-                <td th:text="${foodOption.price}"></td>
+                <td th:text="${foodOption.priceAsString}"></td>
                 <td th:text="${foodOption.extraOptionsAsString}"></td>
                 <td>
                     <form th:action="@{'/event/' + ${event.name} + '/' + ${configuration.name} +'/' + ${foodOption.name} + '/delete'}" method="post">
