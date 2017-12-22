@@ -1,5 +1,6 @@
-package be.jorandeboever.controllers;
+package be.jorandeboever.controllers.event;
 
+import be.jorandeboever.controllers.ProfileController;
 import be.jorandeboever.services.EventService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

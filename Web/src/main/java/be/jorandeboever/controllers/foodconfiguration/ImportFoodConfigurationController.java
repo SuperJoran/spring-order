@@ -1,4 +1,4 @@
-package be.jorandeboever.controllers;
+package be.jorandeboever.controllers.foodconfiguration;
 
 import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.FoodOptionConfigurationService;

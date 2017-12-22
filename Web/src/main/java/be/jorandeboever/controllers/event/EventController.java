@@ -1,4 +1,4 @@
-package be.jorandeboever.controllers;
+package be.jorandeboever.controllers.event;
 
 import be.jorandeboever.domain.Event;
 import be.jorandeboever.services.EventService;
@@ -20,7 +20,6 @@ public class EventController {
     private final PersonChoicesSearchResultService personChoicesSearchResultService;
     private final FoodOptionConfigurationService foodOptionConfigurationService;
 
-    //TODO: split controller in multiple controllers
     public EventController(
             EventService eventService,
             PersonChoicesSearchResultService personChoicesSearchResultService,

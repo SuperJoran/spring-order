@@ -1,4 +1,4 @@
-package be.jorandeboever.controllers;
+package be.jorandeboever.controllers.event;
 
 import be.jorandeboever.domain.Event;
 import be.jorandeboever.domain.FoodOptionConfiguration;

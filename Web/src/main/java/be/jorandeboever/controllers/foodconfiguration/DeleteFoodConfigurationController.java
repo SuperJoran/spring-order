@@ -1,5 +1,6 @@
-package be.jorandeboever.controllers;
+package be.jorandeboever.controllers.foodconfiguration;
 
+import be.jorandeboever.controllers.event.EventController;
 import be.jorandeboever.services.FoodOptionConfigurationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

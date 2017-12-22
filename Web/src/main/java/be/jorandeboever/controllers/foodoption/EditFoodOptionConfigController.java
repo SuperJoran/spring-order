@@ -1,5 +1,6 @@
-package be.jorandeboever.controllers;
+package be.jorandeboever.controllers.foodoption;
 
+import be.jorandeboever.controllers.event.EventController;
 import be.jorandeboever.domain.FoodOptionConfiguration;
 import be.jorandeboever.services.FoodOptionConfigurationService;
 import org.springframework.stereotype.Controller;

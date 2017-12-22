@@ -1,4 +1,4 @@
-package be.jorandeboever.controllers;
+package be.jorandeboever.controllers.foodoption;
 
 import be.jorandeboever.domain.ExtraOption;
 import be.jorandeboever.domain.FoodOption;
