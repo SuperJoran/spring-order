@@ -72,36 +72,70 @@
             </tr>
             </tbody>
         </table>
-
     </div>
-
-
     <div th:if="${!#lists.isEmpty(participants)}">
-        <h2>Participants</h2>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#byParticipant" role="tab" data-toggle="tab">By participant</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#byItem" role="tab" data-toggle="tab">By item</a>
+            </li>
+        </ul>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Username</th>
-                <th>Food choices</th>
-                <th>Total</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="participant: ${participants}">
-                <td th:text="${participant.username}"></td>
-                <td th:text="${participant.selectedChoicesAsString}"></td>
-                <td th:text="${participant.totalPrice}"></td>
-                <td>
-                    <a th:href="@{'/event/' + ${event.name} + '/remove/' + ${participant.username}}">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                        Remove
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="byParticipant">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Food choices</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="participant: ${participants}">
+                        <td th:text="${participant.username}"></td>
+                        <td th:text="${participant.selectedChoicesAsString}"></td>
+                        <td th:text="${participant.totalPrice}"></td>
+                        <td>
+                            <a th:href="@{'/event/' + ${event.name} + '/remove/' + ${participant.username}}">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane " id="byItem">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Food choices</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="participant: ${participants}">
+                        <td th:text="${participant.username}"></td>
+                        <td th:text="${participant.selectedChoicesAsString}"></td>
+                        <td th:text="${participant.totalPrice}"></td>
+                        <td>
+                            <a th:href="@{'/event/' + ${event.name} + '/remove/' + ${participant.username}}">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
