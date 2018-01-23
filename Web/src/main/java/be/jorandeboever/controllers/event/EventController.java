@@ -1,6 +1,7 @@
 package be.jorandeboever.controllers.event;
 
 import be.jorandeboever.domain.Event;
+import be.jorandeboever.services.ChosenOptionService;
 import be.jorandeboever.services.EventService;
 import be.jorandeboever.services.FoodOptionConfigurationService;
 import be.jorandeboever.services.PersonChoicesSearchResultService;
@@ -19,15 +20,17 @@ public class EventController {
     private final EventService eventService;
     private final PersonChoicesSearchResultService personChoicesSearchResultService;
     private final FoodOptionConfigurationService foodOptionConfigurationService;
+    private final ChosenOptionService chosenOptionService;
 
     public EventController(
             EventService eventService,
             PersonChoicesSearchResultService personChoicesSearchResultService,
-            FoodOptionConfigurationService foodOptionConfigurationService
-    ) {
+            FoodOptionConfigurationService foodOptionConfigurationService,
+            ChosenOptionService chosenOptionService) {
         this.eventService = eventService;
         this.personChoicesSearchResultService = personChoicesSearchResultService;
         this.foodOptionConfigurationService = foodOptionConfigurationService;
+        this.chosenOptionService = chosenOptionService;
     }
 
 
@@ -46,6 +49,7 @@ public class EventController {
         ModelAndView modelAndView = new ModelAndView("event", "event", this.eventService.findByName(eventName));
         modelAndView.addObject("foodOptionConfigurations", this.foodOptionConfigurationService.findAllByEventName(eventName));
         modelAndView.addObject("participants", this.personChoicesSearchResultService.findParticipantsByEventName(eventName));
+        modelAndView.addObject("chosenOptions", this.chosenOptionService.findByEventName(eventName));
         return modelAndView;
     }
 
