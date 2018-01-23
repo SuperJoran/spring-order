@@ -1,4 +1,4 @@
-package be.jorandeboever.batch.event;
+package be.jorandeboever.batch.event.rename;
 
 import be.jorandeboever.domain.Event;
 import org.apache.logging.log4j.LogManager;
@@ -22,25 +22,12 @@ public class RenameEventNameItemProcessor implements ItemProcessor<Event, Event>
     public Event process(Event event) {
         LOG.debug(() -> String.format("Processing event with name %s", event.getName()));
 
-
-        if (eventIsEmpty(event)) {
-            //TODO_JORAN delete event
-        }
-
         if (isOlderThan2Weeks(event.getDateTime()) && !eventIsAlreadyArchived(event.getName())) {
             String updatedName = String.format("%s-%s", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(event.getDateTime()), event.getName());
             LOG.debug(() -> String.format("Archiving event with name %s to %s", event.getName(), updatedName));
             event.setName(updatedName);
         }
         return event;
-    }
-
-    private static boolean eventIsEmpty(Event event) {
-        return !event.getFoodOptionConfigurations()
-                .stream()
-                .flatMap(conf -> conf.getFoodOptions().stream())
-                .findAny()
-                .isPresent();
     }
 
     private static boolean isOlderThan2Weeks(ChronoLocalDateTime<LocalDate> dateTime) {

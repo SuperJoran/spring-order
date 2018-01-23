@@ -1,11 +1,8 @@
-package be.jorandeboever.batch.event;
+package be.jorandeboever.batch.event.rename;
 
 import be.jorandeboever.domain.Event;
-import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -25,10 +22,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class EventBatchConfiguration {
+public class RenameEventsStepConfiguration {
 
-    private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+
+    @Autowired
+    public RenameEventsStepConfiguration(StepBuilderFactory stepBuilderFactory) {
+        this.stepBuilderFactory = stepBuilderFactory;
+    }
 
     @Bean
     @Autowired
@@ -49,9 +50,9 @@ public class EventBatchConfiguration {
 
         PostgresPagingQueryProvider queryProvider = new PostgresPagingQueryProvider();
         queryProvider.setSelectClause("select *");
-        queryProvider.setFromClause("from SPR_EVENT");
+        queryProvider.setFromClause("from SPR_EVENT event");
+        queryProvider.setWhereClause("WHERE event.datetime < current_date - 14");
         queryProvider.setSortKeys(sortKeys);
-
         return queryProvider;
     }
 
@@ -65,16 +66,10 @@ public class EventBatchConfiguration {
         return writer;
     }
 
-    @Autowired
-    public EventBatchConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
-        this.jobBuilderFactory = jobBuilderFactory;
-        this.stepBuilderFactory = stepBuilderFactory;
-    }
-
     @Bean
     @Autowired
     public Step renameEventStep(ItemReader<Event> reader, ItemProcessor<Event, Event> renameEventNameItemProcessor, ItemWriter<Event> writer) {
-        return this.stepBuilderFactory.get("readEventStep")
+        return this.stepBuilderFactory.get("renameEventStep")
                 .<Event, Event>chunk(100)
                 .reader(reader)
                 .processor(renameEventNameItemProcessor)
@@ -82,13 +77,5 @@ public class EventBatchConfiguration {
                 .build();
     }
 
-    @Bean
-    public Job eventRenamingJob(Step renameEventStep) throws Exception {
-        return this.jobBuilderFactory.get("eventRenamingJob")
-                .incrementer(new RunIdIncrementer())
-                .start(renameEventStep)
-//                .next(archiveEventNameStep)
-//                .next(new ArchiveEventDecider()).on("").to(readEventStep).end()
-                .build();
-    }
+
 }

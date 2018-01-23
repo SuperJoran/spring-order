@@ -18,19 +18,19 @@ import java.time.format.DateTimeFormatter;
 public class BatchConfiguration {
 
     private final JobLauncher jobLauncher;
-    private final Job eventRenamingJob;
+    private final Job archiveEventsJob;
 
-    public BatchConfiguration(JobLauncher jobLauncher, Job eventRenamingJob) {
+    public BatchConfiguration(JobLauncher jobLauncher, Job archiveEventsJob) {
         this.jobLauncher = jobLauncher;
-        this.eventRenamingJob = eventRenamingJob;
+        this.archiveEventsJob = archiveEventsJob;
     }
 
     @Scheduled(cron = "0 0/1 * 1/1 * ?")
-    public void launch() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
+    public void launchArchiveEventsJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("date", DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss").format(LocalDateTime.now()))
                 .toJobParameters();
 
-        this.jobLauncher.run(this.eventRenamingJob, jobParameters);
+        this.jobLauncher.run(this.archiveEventsJob, jobParameters);
     }
 }

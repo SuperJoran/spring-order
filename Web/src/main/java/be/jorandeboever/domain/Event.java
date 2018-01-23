@@ -19,7 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "SPR_EVENT")
-public class Event extends DomainObject {
+public final class Event extends DomainObject {
     @Column(name = "DATETIME")
     private LocalDateTime dateTime;
     private String name;
@@ -42,6 +42,11 @@ public class Event extends DomainObject {
     private int numberOfAuthenticatedParticipants;
 
     public Event() {
+    }
+
+    public Event(LocalDateTime dateTime, String name) {
+        this.dateTime = dateTime;
+        this.name = name;
     }
 
     public Event(LocalDateTime dateTime, String name, Person owner) {

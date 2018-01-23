@@ -13,4 +13,6 @@ public interface EventService {
     List<Event> findByOwnerUsername(String username);
 
     void deleteByName(String eventName);
+
+    void removeAll(Iterable<Event> events);
 }
