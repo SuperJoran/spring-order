@@ -25,7 +25,7 @@ public class BatchConfiguration {
         this.archiveEventsJob = archiveEventsJob;
     }
 
-    @Scheduled(cron = "0 0/1 * 1/1 * ?")
+    @Scheduled(cron = "0 0 4 1/1 * ?")
     public void launchArchiveEventsJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("date", DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss").format(LocalDateTime.now()))
