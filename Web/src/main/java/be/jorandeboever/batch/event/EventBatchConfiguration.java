@@ -73,20 +73,22 @@ public class EventBatchConfiguration {
 
     @Bean
     @Autowired
-    public Step step1(ItemReader<Event> reader, ItemProcessor<Event, Event> eventItemProcessor, ItemWriter<Event> writer) {
-        return this.stepBuilderFactory.get("step1")
-                .<Event, Event>chunk(10)
+    public Step renameEventStep(ItemReader<Event> reader, ItemProcessor<Event, Event> renameEventNameItemProcessor, ItemWriter<Event> writer) {
+        return this.stepBuilderFactory.get("readEventStep")
+                .<Event, Event>chunk(100)
                 .reader(reader)
-                .processor(eventItemProcessor)
+                .processor(renameEventNameItemProcessor)
                 .writer(writer)
                 .build();
     }
 
     @Bean
-    public Job eventRenamingJob(Step step1) throws Exception {
-        return this.jobBuilderFactory.get("job1")
+    public Job eventRenamingJob(Step renameEventStep) throws Exception {
+        return this.jobBuilderFactory.get("eventRenamingJob")
                 .incrementer(new RunIdIncrementer())
-                .start(step1)
+                .start(renameEventStep)
+//                .next(archiveEventNameStep)
+//                .next(new ArchiveEventDecider()).on("").to(readEventStep).end()
                 .build();
     }
 }

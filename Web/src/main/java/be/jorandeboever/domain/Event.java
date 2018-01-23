@@ -41,6 +41,15 @@ public class Event extends DomainObject {
             "  )")
     private int numberOfAuthenticatedParticipants;
 
+    public Event() {
+    }
+
+    public Event(LocalDateTime dateTime, String name, Person owner) {
+        this.dateTime = dateTime;
+        this.name = name;
+        this.owner = owner;
+    }
+
     public int getNumberOfParticipants() {
         return this.numberOfAuthenticatedParticipants;
     }
