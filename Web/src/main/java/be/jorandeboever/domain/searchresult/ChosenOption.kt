@@ -2,6 +2,7 @@ package be.jorandeboever.domain.searchresult
 
 
 import be.jorandeboever.utilities.BigDecimalUtility
+import be.jorandeboever.utilities.CurrencyFormatUtility
 import org.hibernate.annotations.Immutable
 import java.math.BigDecimal
 import javax.persistence.*
@@ -31,4 +32,7 @@ class ChosenOption  {
 
     val totalPrice: BigDecimal?
         get() = BigDecimalUtility.add(sizePrice, extraOptionPrice)
+
+    val totalPriceAsString: String?
+        get() = CurrencyFormatUtility.formatAmount(totalPrice)
 }

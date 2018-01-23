@@ -116,6 +116,7 @@
                     <tr>
                         <th>Food choice</th>
                         <th>Size</th>
+                        <th>Extras</th>
                         <th>Total price</th>
                         <th>Count</th>
                     </tr>
@@ -124,7 +125,8 @@
                     <tr th:each="chosenOption: ${chosenOptions}">
                         <td th:text="${chosenOption.foodOptionName}"></td>
                         <td th:text="${chosenOption.sizeName}"></td>
-                        <td th:text="${chosenOption.totalPrice}"></td>
+                        <td th:text="${chosenOption.extraOptionName}"></td>
+                        <td th:text="${chosenOption.totalPriceAsString}"></td>
                         <td th:text="${chosenOption.count}"></td>
                     </tr>
                     </tbody>

@@ -10,7 +10,7 @@ CREATE OR REPLACE VIEW V_CHOSEN_OPTION AS (
     foodOption.name                          AS FOOD_OPTION_NAME,
     size.name                                AS SIZE_NAME,
     size.price                               AS SIZE_PRICE,
-    COALESCE(extrasCombination.NAME, 'NULL') AS EXTRAS_COMBINATION_NAME,
+    COALESCE(extrasCombination.NAME, '') AS EXTRAS_COMBINATION_NAME,
     extrasCombination.PRICE                  AS EXTRAS_COMBINATION_PRICE,
     count(DISTINCT choice.uuid)              AS COUNT
   FROM spr_selected_choice choice
