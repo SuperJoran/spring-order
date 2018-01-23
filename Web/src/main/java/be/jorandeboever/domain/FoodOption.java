@@ -48,6 +48,12 @@ public class FoodOption extends DomainObject {
 
     public FoodOption(FoodOption otherFoodOption) {
         this.name = otherFoodOption.name;
+        otherFoodOption.getSizesToChooseFrom()
+                .forEach(size -> {
+                    Size newSize = new Size(size);
+                    newSize.setFoodOption(this);
+                    this.getSizesToChooseFrom().add(newSize);
+                });
     }
 
     public FoodOption(String name, BigDecimal price) {

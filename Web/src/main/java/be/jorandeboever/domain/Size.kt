@@ -22,6 +22,11 @@ class Size : DomainObject {
 
     constructor()
 
+    constructor(otherSize: Size) {
+        this.name = otherSize.name
+        this.price = otherSize.price
+    }
+
     constructor(name: String, price: BigDecimal? = null, foodOption: FoodOption?) {
         this.name = name
         this.price = price
@@ -29,6 +34,6 @@ class Size : DomainObject {
     }
 
     override fun toString(): String {
-        return if(foodOption?.hasMultipleSizes() == true) "${name} ${priceAsString}" else "${priceAsString}"
+        return if(foodOption?.hasMultipleSizes() == true) "$name $priceAsString" else "$priceAsString"
     }
 }
